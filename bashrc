@@ -85,12 +85,6 @@ if [ -x /usr/bin/dircolors ]; then
     alias ll='ls -l --color=auto'
     alias la='ls -A --color=auto'
     alias l='ls -CF --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
-
-    #alias grep='grep --color=auto'
-    #alias fgrep='fgrep --color=auto'
-    #alias egrep='egrep --color=auto'
 fi
 
 
@@ -105,7 +99,6 @@ if [ -f ~/.bash_functions ]; then
     . ~/.bash_functions
 fi
 
-export REPLYTO='jeremy.rose@vecima.com'
 if [ -d "$HOME/bin" ] ; then
     export PATH="$HOME/bin:$PATH"
 fi
