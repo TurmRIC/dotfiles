@@ -1,0 +1,21 @@
+#!/bin/bash
+#vim:filetype=sh
+
+alias vim='vim -p'
+alias nvim='nvim -p'
+alias gvim='gvim -p'
+alias cim='vim -p `ls ../include/*.h` `ls *.h` `ls *.c`'
+alias diff='diff --strip-trailing-cr -U 10 -X ~/.diffexcludes -I "\$Id:.*\$"'
+alias cvsdiff='cvs diff -I "\$Id:.*\$"'
+alias cgrep='grep -I --exclude-from=/home/jeremyro/.grepexcludes'
+alias egrep='grep -IE --exclude-from=/home/jeremyro/.grepexcludes'
+alias ack='ack-grep --ignore-dir ".mocks" --follow'
+alias fc='chmod -R +w 14_Overlay/ ; rm -rf 14_Overlay/ ; cvs up 14_Overlay ; cd 14_Overlay/'
+alias bco='clean ; bo'
+alias up='cvsclean ; cvs up'
+alias testable='(drop14 ; clean ; make clean ; make )'
+alias testclean='rm -rf ./.libs/*.gcda'
+alias can-has='apt-get'
+alias sqlite3='sqlite3 -init ~/.sqlite_config'
+alias tunnel_dalcenti='ssh -Nf -nL 5557:localhost:5557 dalcenti'
+alias tunnel_rndirc='ssh -Nf -nL 5556:localhost:5556 rndirc'

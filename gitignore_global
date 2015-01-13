@@ -1,0 +1,149 @@
+# git ls-files --others --exclude-from=.git/info/exclude
+# Lines that start with '#' are comments.
+# For a project mostly in C, the following would be a good set of
+# exclude patterns (uncomment them if you want to use them):
+# *.[oa]
+# *~
+
+#Vim files
+.*.swp
+.vimtags
+
+# compiled documentation files
+*.pdf
+# Latex Ignore files
+*.acn
+*.acr
+*.alg
+*.aux
+*.bbl
+*.blg
+*.dvi
+*.fdb_latexmk
+*.glg
+*.glo
+*.gls
+*.idx
+*.ilg
+*.ind
+*.ist
+*.lof
+*.log
+*.lot
+*.maf
+*.mtc
+*.mtc0
+*.nav
+*.nlo
+*.out
+*.pdfsync
+*.ps
+*.snm
+*.synctex.gz
+*.toc
+*.vrb
+*.xdy
+*.tdo
+
+# Object files
+*.o
+*.ko
+
+# Libraries
+*.lib
+*.a
+
+# Netbeans project files
+nbproject/private/private.xml
+
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Tag files
+.vimtags
+
+#Vecima specifics
+vcm_mk
+.vcm_module_checkout
+.vcm_module_links
+.git_module_checkout
+.git_module_links
+event_defs.txt
+sbMock_*
+sb2_gen*
+.libs
+.mocks
+.xml
+overlay.ssl
+_VERSION
+test_utils/*/*
+skel/install
+skel/install.sh.done
+work/bin
+work/etc
+work/libexec
+work/usr
+work/var
+git/
+coverage/
+libtoolize/
+.done
+.objs/
+.objs-cross/
+.objs_cross/
+.generated_sources
+*.g
+*.tokens
+
+
+#4V Specifics - config file .mks
+comcast.mk
+shaw.mk
+ifac_sys_helpers.h
+.tq_*
+*.tlv
+work/epg
+work/70_Shared_Code
+
+
+# Compiled source
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Packages
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Logs and databases #
+*.log
+*.sql
+*.sqlite
+
+# OS generated files #
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

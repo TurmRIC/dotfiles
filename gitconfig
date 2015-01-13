@@ -1,0 +1,34 @@
+[alias]
+	br = branch -a -vv
+    co = checkout
+	ci = commit
+    st = status -uno
+    lc = log --stat --no-merges 
+    lg = log --graph --pretty=tformat:'%C(yellow)%h%Creset -%C(red)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+    hist = log --graph --pretty=tformat:'%C(yellow)%h%Creset -%C(red)%d%Creset %s %Cgreen(%ci) %C(bold blue)<%an>%Creset'
+    last = log -1 HEAD
+    unstage = reset HEAD --
+    amend = commit --amend -C HEAD
+    undo = reset --hard HEAD~1
+    tags = log --simplify-by-decoration --pretty=\"format:%C(yellow)%h%Creset -%Cred%d%Creset %Cgreen%ai%Creset\"
+    graphviz = "!f() { echo 'digraph git {' ; git log --pretty='format:  %h -> { %p }' \"$@\" | sed 's/[0-9a-f][0-9a-f]*/\"&\"/g' ; echo '}'; }; f"
+[core]
+	pager = less -qFX
+	excludesfile = /home/jeremyro/.gitignore_global
+[color]
+	ui = true
+	status = auto
+	branch = auto
+	diff = auto
+[user]
+	email = jeremy.rose@vecima.com
+[merge]
+	tool = kdiff3
+[commit]
+	template = /home/jeremyro/.gitmessage
+[push]
+	default = upstream
+[branch]
+	autosetuprebase = always
+[format]
+	pretty = tformat:Commit:  %C(yellow)%H%Creset%nAuthor:  %C(bold blue)%an <%ae>%Creset%nDate:    %Cgreen%ad%Creset%nSubject: %Cred%s%Creset%n%n%w(76,4,4)%b%w(76,0,0)
