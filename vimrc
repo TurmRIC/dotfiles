@@ -11,14 +11,27 @@ Plugin 'gmarik/Vundle.vim'
 
 "Syntastic
 Plugin 'scrooloose/syntastic.git'
+"NERD Tree - source browser
+Plugin 'scrooloose/nerdtree'
+
+"Tablist Plugin
+"Fake repo since I can't find a git source for this bloody plugin that is up
+"to date
+Plugin 'file:///home/jeremyro/local_vim_plugins/taglist/'
+
+"Source Explorer - Displays declarations given correct ctag information.
+Plugin 'wesleyche/SrcExpl'
+
+" Trinity manages taglist, Source Explorer and NERD Tree. Includes NERD Tree
+" directly - Doesn't currently support multiple tabs so it's out until further
+" notice.
+"Plugin 'wesleyche/Trinity'
 
 "Tabline Remote Copy
 "Plugin 'mkitt/tabline.vim.git'
 "My local copy (slightly updated should fork properly on github)
 Plugin 'file:///home/jeremyro/local_vim_plugins/tabline.vim/'
-"Fake repo since I can't find a git source for this bloody plugin that is up
-"to date
-Plugin 'file:///home/jeremyro/local_vim_plugins/taglist/'
+
 "Local vim repo for vecima specific items
 Plugin 'file:///home/jeremyro/VCOMMON/vim-vecima/'
 
@@ -27,6 +40,8 @@ Plugin 'xolox/vim-easytags.git'
 Plugin 'tpope/vim-fugitive.git'
 Plugin 'guns/xterm-color-table.vim'
 Plugin 'git://git.code.sf.net/p/vim-latex/vim-latex.git'
+
+Plugin 'DoxygenToolkit.vim'
 
 call vundle#end()
 
@@ -104,6 +119,8 @@ set backupdir=~/.vim/backups//
 filetype plugin on "Turn the filetype plugins on to keep file type specific settings out of here.
 
 let g:load_doxygen_syntax=1     "highlight doxygen comments
+"Doxygen plugin setup"
+let g:DoxygenToolkit_briefTag_pre=""
 
 " ----------------------------------------------------------------------------
 " Tall Monitor configuration
@@ -210,7 +227,44 @@ function! Tab_Or_Complete()
 endfunction
 inoremap <Tab> <C-R>=Tab_Or_Complete()<CR>
 
-"Settings for the TagList plugin
+"Look for the tags file backward, giveup if 14_Overlay is found
+set tags=./.tags;/home/jeremyro/4D_Tintagel/
+"set tags=/home/jeremyro/4D_Tintagel/.vimtags
+
+"Following a tag will open a new tab, not replace the current window
+nnoremap <silent><C-]> <C-w><C-]><C-w>T
+"Return from a tag to the previous tab
+nnoremap <silent><C-T> <C-T> :tabc<CR> :tabp<CR>
+
+
+" ---------------------------------------------------------------------------
+" NERD Tree
+" ---------------------------------------------------------------------------
+let NERDTreeWinPos = "left"
+" tn toggles on and off the NERDTree window
+
+function NERDTreeToggleMirror()
+    if 0 == stridx(join(map(range(1, winnr('$')), 'bufname(winbufnr(v:val))'), ' '), 'NERD_tree')
+        NERDTreeToggle
+        return
+    endif
+    NERDTreeMirror
+    if -1 == stridx(join(map(range(1, winnr('$')), 'bufname(winbufnr(v:val))'), ' '), 'NERD_tree')
+        NERDTreeToggle
+    endif
+endfunction
+
+nnoremap tn :call NERDTreeToggleMirror()<CR>
+" ---------------------------------------------------------------------------
+" Source Explorer
+" ---------------------------------------------------------------------------
+let g:SrcExpl_pluginList = ["Source_Explorer", "__Taglist__", "_NERD_tree_" ]
+let g:SrcExpl_isUpdateTags = 0
+" ts toggles on and off the source explorer window
+nnoremap ts :SrcExplToggle<CR>
+" ---------------------------------------------------------------------------
+" TagList
+" ---------------------------------------------------------------------------
 let Tlist_Inc_Winwidth = 0          "Don't increase window width (doesn't work with Terminator)
 let Tlist_Ctags_Cmd='/usr/bin/ctags-exuberant' "Set tag command
 let Tlist_Auto_Open = 1             "Auto open Tag List
@@ -222,13 +276,15 @@ let Tlist_Exit_OnlyWindow = 1       "if you are the last, kill yourself
 "let Tlist_Compact_Format = 1        "Show compact information
 let Tlist_Enable_Fold_Column = 0    "Don't Show the fold indicator column
 let Tlist_File_Fold_Auto_Close = 1  "Autoclose the fold for non-active buffer
+
 function CheckWideMonitor()
     let l:old_winwidth=0
     if exists('Tlist_WinWidth')
         let l:old_winwidth=g:Tlist_WinWidth
     endif
     if &columns > 180
-        let g:Tlist_WinWidth = 60
+        let g:Tlist_WinWidth = 36
+        let g:NERDTreeWinSize = 36 
         if (exists(':TlistOpen') && &ft == 'c')
             TlistOpen
         endif
@@ -239,7 +295,8 @@ function CheckWideMonitor()
             TlistClose
         endif
     else
-        let g:Tlist_WinWidth = 30
+        let g:Tlist_WinWidth = 31
+        let g:NERDTreeWinSize = 31 
         if (exists(':TlistOpen') && &ft == 'c')
             TlistOpen
         endif
@@ -256,17 +313,7 @@ autocmd VimResized * call CheckWideMonitor()
 
 " tt toggles on and off the tag list
 nnoremap tt :TlistToggle<CR>
-
-"Doxygen plugin setup"
-let g:DoxygenToolkit_briefTag_pre=""
-
-"Look for the tags file backward, giveup if 14_Overlay is found
-set tags=./.vimtags;14_Overlay/;4D_Overlay/
-
-"Following a tag will open a new tab, not replace the current window
-nnoremap <silent><C-]> <C-w><C-]><C-w>T
-"Return from a tag to the previous tab
-nnoremap <silent><C-T> <C-T> :tabc<CR> :tabp<CR>
+"nnoremap tt :TrinityToggleAll<CR>
 
 "Spell Check Help
 "   zg  Add word to dictionary
