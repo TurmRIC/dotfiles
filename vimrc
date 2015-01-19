@@ -194,6 +194,11 @@ nnoremap <silent><LocalLeader>p "*p<cr>
 " bt switches window splits like gt does tabs
 nnoremap bt <C-W>w
 
+"Ctl+cursor keys move between splits
+nmap <silent> <C-up> :wincmd k<CR>
+nmap <silent> <C-down> :wincmd j<CR>
+nmap <silent> <C-left> :wincmd h<CR>
+nmap <silent> <C-right> :wincmd l<CR>
 " Convert file type to unix
 map <LocalLeader>u :setlocal ff=unix
 
@@ -254,14 +259,16 @@ function NERDTreeToggleMirror()
     endif
 endfunction
 
-nnoremap tn :call NERDTreeToggleMirror()<CR>
+nnoremap <silent> tn :call NERDTreeToggleMirror()<CR>
+
 " ---------------------------------------------------------------------------
 " Source Explorer
 " ---------------------------------------------------------------------------
 let g:SrcExpl_pluginList = ["Source_Explorer", "__Taglist__", "_NERD_tree_" ]
 let g:SrcExpl_isUpdateTags = 0
 " ts toggles on and off the source explorer window
-nnoremap ts :SrcExplToggle<CR>
+nnoremap <silent> ts :SrcExplToggle<CR>
+
 " ---------------------------------------------------------------------------
 " TagList
 " ---------------------------------------------------------------------------
@@ -313,36 +320,7 @@ autocmd VimResized * call CheckWideMonitor()
 
 " tt toggles on and off the tag list
 nnoremap tt :TlistToggle<CR>
-"nnoremap tt :TrinityToggleAll<CR>
 
-"Spell Check Help
-"   zg  Add word to dictionary
-"   z=  See spell check word suggestions
-"   ]s  move to next misspelled word
-"   [s  move to prev misspelled word
-
-"Undo Help
-"   :earlier [time]     ex :earlier 2h
-"   :later [time]       ex :later 2h
-"   g-  move 1 state back
-"   g+  move 1 state forward
-
-"Tab Help
-"   :tabnew [file]  Create a new tab, [file] is optional
-"   :tabdo [cmd]    Execute the cmd on all tabs | ex :tabdo q
-"   gt              Next tab
-"   gT              Prev tab
-"   $ vim -p *.c    At bash: open all .c files in tabs
-
-"Windows
-"   :sp             Split the window horizontally
-"   :vsp            Split the window vertically
-"   Ctrl-W          Move between splits
-
-"Doxygen Toolkit
-"   download http://www.vim.org/scripts/script.php?script_id=987
-"   install into .vim/plugins
-"   Cursor on function run :Dox     Inserts Doxygen Header
 
 "Marks Help
 "   `.              Jump to last change
@@ -358,7 +336,6 @@ nnoremap tt :TlistToggle<CR>
 "   d4w             Delete four Words
 "   cw              Change current Word
 "   vw              Highlight current word
-
 
 "Tags are functions, variables and the like
 "Tag List
