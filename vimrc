@@ -41,6 +41,9 @@ Plugin 'tpope/vim-fugitive.git'
 Plugin 'guns/xterm-color-table.vim'
 Plugin 'git://git.code.sf.net/p/vim-latex/vim-latex.git'
 
+"json Highlighting
+Plugin 'elzr/vim-json'
+
 Plugin 'DoxygenToolkit.vim'
 
 call vundle#end()
@@ -121,6 +124,11 @@ filetype plugin on "Turn the filetype plugins on to keep file type specific sett
 let g:load_doxygen_syntax=1     "highlight doxygen comments
 "Doxygen plugin setup"
 let g:DoxygenToolkit_briefTag_pre=""
+
+" ----------------------------------------------------------------------------
+" Json Highlighting config
+" ----------------------------------------------------------------------------
+let g:vim_json_syntax_conceal = 0 "Don't do concealing in json
 
 " ----------------------------------------------------------------------------
 " Tall Monitor configuration
@@ -285,41 +293,52 @@ let Tlist_Enable_Fold_Column = 0    "Don't Show the fold indicator column
 let Tlist_File_Fold_Auto_Close = 1  "Autoclose the fold for non-active buffer
 
 function CheckWideMonitor()
-    let l:old_winwidth=0
-    if exists('Tlist_WinWidth')
-        let l:old_winwidth=g:Tlist_WinWidth
-    endif
     if &columns > 180
+        let g:Tlist_Auto_Open = 1
         let g:Tlist_WinWidth = 36
         let g:NERDTreeWinSize = 36 
-        if (exists(':TlistOpen') && &ft == 'c')
-            TlistOpen
-        endif
     elseif &columns < 110 
         let g:Tlist_Auto_Open = 0
         let g:Tlist_WinWidth = 0
-        if (exists(':TlistClose') && &ft == 'c')
-            TlistClose
-        endif
     else
+        let g:Tlist_Auto_Open = 1
         let g:Tlist_WinWidth = 31
         let g:NERDTreeWinSize = 31 
-        if (exists(':TlistOpen') && &ft == 'c')
-            TlistOpen
-        endif
+    endif
+endfunction
+
+function OpenOrCloseTlist()
+    if ('__Tag_List__' == bufname(winbufnr(winnr())))
+        wincmd h
     endif
     if (exists(':TlistClose') && &ft == 'c')
-        if l:old_winwidth != g:Tlist_WinWidth
+        if g:Tlist_WinWidth == 0
             TlistClose
+        else
             TlistOpen
+            wincmd h
         endif
     endif
 endfunction
+
+function CheckAndToggleTlist()
+    call CheckWideMonitor()
+    if (exists(':TlistToggle'))
+        TlistToggle
+    endif
+endfunction
+
+function UpdateTlistState()
+    call CheckWideMonitor()
+    call OpenOrCloseTlist()
+endfunction
+
 call CheckWideMonitor()
-autocmd VimResized * call CheckWideMonitor()
+autocmd VimResized * call UpdateTlistState()
 
 " tt toggles on and off the tag list
-nnoremap tt :TlistToggle<CR>
+"nnoremap tt :TlistToggle<CR>
+nnoremap tt :call CheckAndToggleTlist()<CR>
 
 
 "Marks Help
