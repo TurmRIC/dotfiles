@@ -300,6 +300,7 @@ function CheckWideMonitor()
     elseif &columns < 110 
         let g:Tlist_Auto_Open = 0
         let g:Tlist_WinWidth = 0
+        let g:NERDTreeWinSize = 0 
     else
         let g:Tlist_Auto_Open = 1
         let g:Tlist_WinWidth = 31
@@ -311,7 +312,7 @@ function OpenOrCloseTlist()
     if ('__Tag_List__' == bufname(winbufnr(winnr())))
         wincmd h
     endif
-    if (exists(':TlistClose') && &ft == 'c')
+    if (exists(':TlistClose'))
         if g:Tlist_WinWidth == 0
             TlistClose
         else
@@ -335,6 +336,8 @@ endfunction
 
 call CheckWideMonitor()
 autocmd VimResized * call UpdateTlistState()
+autocmd TabEnter * call UpdateTlistState()
+autocmd WinEnter * call CheckWideMonitor()
 
 " tt toggles on and off the tag list
 "nnoremap tt :TlistToggle<CR>
