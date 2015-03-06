@@ -292,6 +292,8 @@ let Tlist_Exit_OnlyWindow = 1       "if you are the last, kill yourself
 let Tlist_Enable_Fold_Column = 0    "Don't Show the fold indicator column
 let Tlist_File_Fold_Auto_Close = 1  "Autoclose the fold for non-active buffer
 
+let g:Tlist_langs = ['c', 'cpp', 'vim', 'java', 'perl', 'python', 'js']
+
 function CheckWideMonitor()
     if &columns > 180
         let g:Tlist_Auto_Open = 1
@@ -312,7 +314,7 @@ function OpenOrCloseTlist()
     if ('__Tag_List__' == bufname(winbufnr(winnr())))
         wincmd h
     endif
-    if (exists(':TlistClose'))
+    if (exists(':TlistClose') && -1 != index(g:Tlist_langs, &ft))
         if g:Tlist_WinWidth == 0
             TlistClose
         else
