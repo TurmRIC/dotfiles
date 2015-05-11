@@ -97,7 +97,7 @@ hi lcursor guifg=#070707 guibg=#7fff00 guisp=#7fff00 gui=NONE ctermfg=232 ctermb
 hi Macro guifg=#ff8700 guibg=NONE guisp=NONE gui=NONE ctermfg=208 ctermbg=NONE cterm=NONE
 hi menu guifg=#000000 guibg=#ff6a6a guisp=#ff6a6a gui=NONE ctermfg=NONE ctermbg=9 cterm=NONE
 hi ncursor guifg=#000000 guibg=#FFFFFF guisp=#FFFFFF gui=NONE ctermfg=NONE ctermbg=15 cterm=NONE
-hi Number guifg=#875f87 guibg=NONE guisp=NONE gui=NONE ctermfg=96 ctermbg=NONE cterm=NONE
+hi Number guifg=#870087 guibg=NONE guisp=NONE gui=NONE ctermfg=91 ctermbg=NONE cterm=NONE
 hi operatorcurlybrackets guifg=#5fafff guibg=NONE guisp=NONE gui=bold ctermfg=75 ctermbg=NONE cterm=bold
 hi Operator guifg=#5fffaf guibg=NONE guisp=NONE gui=NONE ctermfg=85 ctermbg=NONE cterm=NONE
 hi PreCondit guifg=#ff8700 guibg=NONE guisp=NONE gui=NONE ctermfg=208 ctermbg=NONE cterm=NONE
