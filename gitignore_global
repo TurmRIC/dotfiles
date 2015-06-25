@@ -104,9 +104,8 @@ libtoolize/
 *.tokens
 
 
-#4V Specifics - config file .mks
-comcast.mk
-shaw.mk
+#Config file .mks
+*.mk
 ifac_sys_helpers.h
 .tq_*
 *.tlv

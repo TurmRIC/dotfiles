@@ -34,6 +34,7 @@ Plugin 'file:///home/jeremyro/local_vim_plugins/tabline.vim/'
 
 "Local vim repo for vecima specific items
 Plugin 'file:///home/jeremyro/VCOMMON/vim-vecima/'
+"Plugin 'ssh://feanor/tftpboot/jeremyro/vim-vecima'
 
 Plugin 'xolox/vim-misc.git'
 Plugin 'xolox/vim-easytags.git'
@@ -51,6 +52,7 @@ call vundle#end()
 " ---------------------------------------------------------------------------
 " General
 " ---------------------------------------------------------------------------
+syntax on           "filetype syntax highlighting
 
 set nocompatible    "don't emulate original vi
 set modelines=0     "prevent security exploits
@@ -65,17 +67,26 @@ set cino=t0=0l1(0W2s
 set autochdir       "working directory follows current file
 set history=1000    "lots of command line history
 colorscheme miko
-let &colorcolumn="80,".join(range(100,300),",") "set colourcolumns for 80 and 100+ columns.
+"let &colorcolumn="80,".join(range(100,300),",") "set colorcolumns for 80 and 100+ columns.
+
+"OverLength highlight group
+highlight OverLength ctermbg=darkred guibg=darkred
+
+"Add the following to the filetype specific after plugins to highlight on all
+"open tabs
+"Highlight the 81st column
+"call matchadd('OverLength', '\%81v', -1)
+"Highlight all columns after 100
+"call matchadd('OverLength', '\%>100v.\+', -2)
 
 if v:progname != "nvim"
     let g:loaded_matchparen = 1 "prevent matching parens to prevent slowdown since it ignores noshowmatch apparently
+    set ttymouse=xterm2 "Set correct mouse type for vim
 endif
 
 " ----------------------------------------------------------------------------
 " UI
 " ----------------------------------------------------------------------------
-"call pathogen#infect() "Use pathogen to load plugins from ~/.vim/bundle/
-syntax on           "filetype syntax highlighting
 set ofu=syntaxcomplete#Complete
 set diffopt=vertical,filler,iwhite
 set diffexpr=MyDiff()
@@ -91,7 +102,6 @@ function MyDiff()
     \  " > " . v:fname_out
 endfunction
 set mouse=a         "Allow mouse use
-set ttymouse=xterm2 "Set correct mouse type
 set expandtab       "Turn tabs into spaces
 set tabstop=4       "use 4-space tabs when [tab] is pressed
 set shiftwidth=4    "use 4-space tabs when reading files

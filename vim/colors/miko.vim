@@ -10,7 +10,7 @@ endif
 set t_Co=256
 let g:colors_name = "miko"
 
-hi ColorColumn guibg=#262626 ctermbg=235
+hi ColorColumn guibg=#262626 gui=NONE ctermbg=235 cterm=NONE
 hi Cursor guifg=#ffffff guibg=#5fff00 guisp=#5fff00 gui=bold ctermfg=15 ctermbg=82 cterm=bold
 hi CursorIM guifg=#070707 guibg=#7fff00 guisp=#7fff00 gui=NONE ctermfg=232 ctermbg=118 cterm=NONE
 "hi CursorColumn -- no settings --
@@ -63,7 +63,7 @@ hi MyTagListFileName guifg=#000000 guibg=#afd7ff guisp=#afd7ff gui=bold ctermfg=
 hi MyTagListTagName guifg=#000000 guibg=#afd7ff guisp=#afd7ff gui=bold ctermfg=16 ctermbg=153 cterm=NONE
 
 hi Boolean guifg=#ffffff guibg=NONE guisp=NONE gui=bold ctermfg=15 ctermbg=NONE cterm=bold
-hi Character guifg=#875fdf guibg=NONE guisp=NONE gui=NONE ctermfg=98 ctermbg=NONE cterm=NONE
+hi Character guifg=#ff0000 guibg=NONE guisp=NONE gui=NONE ctermfg=196 ctermbg=NONE cterm=NONE
 hi cif0 guifg=#bebebe guibg=NONE guisp=NONE gui=NONE ctermfg=7 ctermbg=NONE cterm=NONE
 "hi clear -- no settings --
 hi Comment guifg=#5fd700 guibg=NONE guisp=NONE gui=NONE ctermfg=76 ctermbg=NONE cterm=NONE
@@ -81,8 +81,8 @@ hi Delimiter guifg=#87af5f guibg=NONE guisp=NONE gui=NONE ctermfg=107 ctermbg=NO
 "hi Directory -- no settings --
 "hi EnumerationName -- no settings --
 "hi EnumerationValue -- no settings --
-hi Exception guifg=#ff0000 guibg=NONE guisp=NONE gui=NONE ctermfg=196 ctermbg=NONE cterm=NONE
-hi Float guifg=#875fdf guibg=NONE guisp=NONE gui=NONE ctermfg=98 ctermbg=NONE cterm=NONE
+hi Exception guifg=#000000 guibg=#ff0000 guisp=NONE gui=NONE ctermfg=0 ctermbg=196 cterm=NONE
+hi Float guifg=#ff0000 guibg=NONE guisp=NONE gui=NONE ctermfg=196 ctermbg=NONE cterm=NONE
 hi Function guifg=#5fafff guibg=NONE guisp=NONE gui=bold ctermfg=75 ctermbg=NONE cterm=bold
 hi htmlh2 guifg=#ffffff guibg=#221100 guisp=#221100 gui=bold ctermfg=15 ctermbg=52 cterm=bold
 hi htmllink guifg=#ffff00 guibg=NONE guisp=NONE gui=NONE ctermfg=11 ctermbg=NONE cterm=NONE
@@ -97,7 +97,7 @@ hi lcursor guifg=#070707 guibg=#7fff00 guisp=#7fff00 gui=NONE ctermfg=232 ctermb
 hi Macro guifg=#ff8700 guibg=NONE guisp=NONE gui=NONE ctermfg=208 ctermbg=NONE cterm=NONE
 hi menu guifg=#000000 guibg=#ff6a6a guisp=#ff6a6a gui=NONE ctermfg=NONE ctermbg=9 cterm=NONE
 hi ncursor guifg=#000000 guibg=#FFFFFF guisp=#FFFFFF gui=NONE ctermfg=NONE ctermbg=15 cterm=NONE
-hi Number guifg=#870087 guibg=NONE guisp=NONE gui=NONE ctermfg=91 ctermbg=NONE cterm=NONE
+hi Number guifg=#ff0000 guibg=NONE guisp=NONE gui=NONE ctermfg=196 ctermbg=NONE cterm=NONE
 hi operatorcurlybrackets guifg=#5fafff guibg=NONE guisp=NONE gui=bold ctermfg=75 ctermbg=NONE cterm=bold
 hi Operator guifg=#5fffaf guibg=NONE guisp=NONE gui=NONE ctermfg=85 ctermbg=NONE cterm=NONE
 hi PreCondit guifg=#ff8700 guibg=NONE guisp=NONE gui=NONE ctermfg=208 ctermbg=NONE cterm=NONE

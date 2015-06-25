@@ -6,6 +6,7 @@
     lc = log --stat --no-merges 
     lg = log --graph --pretty=tformat:'%C(yellow)%h%Creset -%C(red)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
     hist = log --graph --pretty=tformat:'%C(yellow)%h%Creset -%C(red)%d%Creset %s %Cgreen(%ci) %C(bold blue)<%an>%Creset'
+    histnc = log --graph --pretty=tformat:'%h -%d %s (%ci) <%an>'
     last = log -1 HEAD
     unstage = reset HEAD --
     amend = commit --amend -C HEAD
