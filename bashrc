@@ -114,31 +114,34 @@ export PATH="$PATH:/usr/local/texlive/2011/bin/x86_64-linux"
 
 export GCC_VERSION_POSTPEND=-4.8
 
-if [ -z "${SSH_AGENT_PID}" ]
+if [ `hostname` = "PC2226" ]
 then
-    export SSH_AGENT_PID=`pgrep ssh-agent`
     if [ -z "${SSH_AGENT_PID}" ]
     then
-        eval `ssh-agent -s`
-    fi
-fi
-
-ID_FINGER_PRINTS="/home/jeremyro/.ssh/identity_fingerprints"
-ssh-add -l > ${ID_FINGER_PRINTS} 2>/dev/null
-
-KEYS="/home/jeremyro/.ssh/identities/pc1895_key"
-if [ -s ${ID_FINGER_PRINTS} ] 
-then
-    for KEY in ${KEYS}
-    do
-        FINGERPRINT=`ssh-keygen -f ${KEY} -l | awk '{print $2}'`
-        if ! grep -q "${FINGERPRINT}" ${ID_FINGER_PRINTS}
+        export SSH_AGENT_PID=`pgrep ssh-agent`
+        if [ -z "${SSH_AGENT_PID}" ]
         then
-            ssh-add ${KEY}
+            eval `ssh-agent -s`
         fi
-    done
+    fi
+
+    ID_FINGER_PRINTS="/home/jeremyro/.ssh/identity_fingerprints"
+    ssh-add -l > ${ID_FINGER_PRINTS} 2>/dev/null
+
+    KEYS="/home/jeremyro/.ssh/identities/pc1895_key"
+    if [ -s ${ID_FINGER_PRINTS} ] 
+    then
+        for KEY in ${KEYS}
+        do
+            FINGERPRINT=`ssh-keygen -f ${KEY} -l | awk '{print $2}'`
+            if ! grep -q "${FINGERPRINT}" ${ID_FINGER_PRINTS}
+            then
+                ssh-add ${KEY}
+            fi
+        done
+    fi
+    rm ${ID_FINGER_PRINTS}
 fi
-rm ${ID_FINGER_PRINTS}
 
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 
