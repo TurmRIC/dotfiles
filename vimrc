@@ -70,7 +70,7 @@ colorscheme miko
 "let &colorcolumn="80,".join(range(100,300),",") "set colorcolumns for 80 and 100+ columns.
 
 "OverLength highlight group
-highlight OverLength ctermbg=darkred guibg=darkred
+highlight OverLength ctermbg=52 guibg=#5f0000
 
 "Add the following to the filetype specific after plugins to highlight on all
 "open tabs

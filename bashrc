@@ -112,8 +112,6 @@ export PATH="$PATH:/opt/eldk/usr/bin:/opt/eldk/bin"
 # Add TeX Live to the PATH
 export PATH="$PATH:/usr/local/texlive/2011/bin/x86_64-linux"
 
-export GCC_VERSION_POSTPEND=-4.8
-
 if [ `hostname` = "PC2226" ]
 then
     if [ -z "${SSH_AGENT_PID}" ]
@@ -143,9 +141,11 @@ then
     rm ${ID_FINGER_PRINTS}
 fi
 
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-
+#set postpends for gcc and clang for vecima build environment
+export GCC_VERSION_POSTPEND=-4.8
+export CLANG_VERSION_POSTPEND=-3.6
+#export USE_CLANG=yes
 # Make the ASAN and MSAN symbolizers work...
-export MSAN_SYMBOLIZER_PATH="`which llvm-symbolizer-3.4`"
-export ASAN_SYMBOLIZER_PATH="`which llvm-symbolizer-3.4`"
+export MSAN_SYMBOLIZER_PATH="`which llvm-symbolizer-3.6`"
+export ASAN_SYMBOLIZER_PATH="`which llvm-symbolizer-3.6`"
 export ASAN_OPTIONS=symbolize=1
