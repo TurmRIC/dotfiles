@@ -179,6 +179,12 @@ let g:easytags_async = 1 "tells easytags to asynchronously update the tags file
 autocmd BufRead,BufNewFile *.[ch],*.def HighlightTags
 
 " ----------------------------------------------------------------------------
+" tabline
+" ----------------------------------------------------------------------------
+"let g:tabline_modified = '+'
+"let g:tabline_separator = ' | '
+"let g:tabline_close = "{X}"
+" ----------------------------------------------------------------------------
 " Autocommands
 " ----------------------------------------------------------------------------
 "Set the titlestring to the current directory/filename
@@ -222,6 +228,9 @@ map <LocalLeader>u :setlocal ff=unix
 
 "Display what syntax highlighting groups are at the cursor
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+
+" Clear search highlighting until search is interacted with again
+nnoremap <LocalLeader>/ :noh<CR>
 
 " ----------------------------------------------------------------------------
 " Spellchecking
