@@ -26,7 +26,7 @@
 [merge]
     tool = kdiff3
 [commit]
-    template = /home/jeremyro/.gitmessage
+    template = ~/.gitmessage
 [push]
     default = upstream
 [branch]
