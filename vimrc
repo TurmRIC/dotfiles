@@ -17,7 +17,7 @@ Plugin 'scrooloose/nerdtree'
 "Tablist Plugin
 "Fake repo since I can't find a git source for this bloody plugin that is up
 "to date
-Plugin 'file:///home/jeremyro/local_vim_plugins/taglist/'
+"Plugin 'file:///usr/home/jeremy/local_vim_plugins/taglist/'
 
 "Source Explorer - Displays declarations given correct ctag information.
 Plugin 'wesleyche/SrcExpl'
@@ -30,14 +30,14 @@ Plugin 'wesleyche/SrcExpl'
 "Tabline Remote Copy
 "Plugin 'mkitt/tabline.vim.git'
 "My local copy (slightly updated should fork properly on github)
-Plugin 'file:///home/jeremyro/local_vim_plugins/tabline.vim/'
+Plugin 'file:///usr/home/jeremy/local_vim_plugins/tabline.vim/'
 
 "Local vim repo for vecima specific items
-Plugin 'file:///home/jeremyro/VCOMMON/vim-vecima/'
+"Plugin 'file:///home/jeremyro/VCOMMON/vim-vecima/'
 "Plugin 'ssh://feanor/tftpboot/jeremyro/vim-vecima'
 
 Plugin 'xolox/vim-misc.git'
-Plugin 'xolox/vim-easytags.git'
+"Plugin 'xolox/vim-easytags.git'
 Plugin 'tpope/vim-fugitive.git'
 Plugin 'guns/xterm-color-table.vim'
 Plugin 'git://git.code.sf.net/p/vim-latex/vim-latex.git'
@@ -123,7 +123,7 @@ set wildmenu        "turn on wild menu (better filename completion)
 set wildmode=list:longest,full
 set wildignore=*.o,*.obj,*.bak,*.exe,*.so*,*.a,CVS/ "don't list when tab-complete open
 "A status line at the bottom
-set statusline=%<%f\ %([%R%M]%)\ [%{&ff}]\ [%l,%v]\ [%p%%]\ %{SyntasticStatuslineFlag()}%=%(Tag:[%{Tlist_Get_Tagname_By_Line()}]%)
+set statusline=%<%f\ %([%R%M]%)\ [%{&ff}]\ [%l,%v]\ [%p%%]\ %{SyntasticStatuslineFlag()}%=
 set laststatus=2                    "always show status line
 setlocal spell spelllang=en_us  "set spell check language
 "Set custom directory for swap files so that they are always on a local filesystem
@@ -169,14 +169,14 @@ let g:syntastic_check_on_wq=0
 " ----------------------------------------------------------------------------
 " EasyTags
 " ----------------------------------------------------------------------------
-let g:easytags_dynamic_files = 1 "tells easytags to use the vim dynamic tags file
+"let g:easytags_dynamic_files = 1 "tells easytags to use the vim dynamic tags file
 "let g:easytags_auto_update = 0 "tells easytags not to automatically update the tags file
-let g:easytags_python_enabled = 1 "tells easytags to use python if available
+"let g:easytags_python_enabled = 1 "tells easytags to use python if available
 "let g:easytags_updatetime_warn = 0
 "let g:easytags_updatetime_min = 30000
-let g:easytags_async = 1 "tells easytags to asynchronously update the tags file
+"let g:easytags_async = 1 "tells easytags to asynchronously update the tags file
 "autocmd Bufwrite *.[ch],*.def UpdateTags
-autocmd BufRead,BufNewFile *.[ch],*.def HighlightTags
+"autocmd BufRead,BufNewFile *.[ch],*.def HighlightTags
 
 " ----------------------------------------------------------------------------
 " tabline
@@ -260,7 +260,7 @@ endfunction
 inoremap <Tab> <C-R>=Tab_Or_Complete()<CR>
 
 "Look for the tags file backward, giveup if 14_Overlay is found
-set tags=./.tags;/home/jeremyro/4D_Tintagel/
+"set tags=./.tags;/usr/home/jeremy/4D_Tintagel/
 "set tags=/home/jeremyro/4D_Tintagel/.vimtags
 
 "Following a tag will open a new tab, not replace the current window
@@ -299,19 +299,20 @@ nnoremap <silent> ts :SrcExplToggle<CR>
 " ---------------------------------------------------------------------------
 " TagList
 " ---------------------------------------------------------------------------
-let Tlist_Inc_Winwidth = 0          "Don't increase window width (doesn't work with Terminator)
-let Tlist_Ctags_Cmd='/usr/bin/ctags-exuberant' "Set tag command
-let Tlist_Auto_Open = 1             "Auto open Tag List
-let Tlist_Process_File_Always = 1   "Always process Tag List
-let Tlist_Auto_Highlight_Tag = 1    "Auto Highlight current tag
-let Tlist_Use_Right_Window = 1      "Open on the right
+"let Tlist_Inc_Winwidth = 0          "Don't increase window width (doesn't work with Terminator)
+"let Tlist_Ctags_Cmd='/usr/bin/ctags-exuberant' "Set tag command
+"let Tlist_Ctags_Cmd='/usr/bin/ctags' "Set tag command
+"let Tlist_Auto_Open = 1             "Auto open Tag List
+"let Tlist_Process_File_Always = 1   "Always process Tag List
+"let Tlist_Auto_Highlight_Tag = 1    "Auto Highlight current tag
+"let Tlist_Use_Right_Window = 1      "Open on the right
 "let Tlist_Display_Prototype = 1    "Display full prototype
-let Tlist_Exit_OnlyWindow = 1       "if you are the last, kill yourself
+"let Tlist_Exit_OnlyWindow = 1       "if you are the last, kill yourself
 "let Tlist_Compact_Format = 1        "Show compact information
-let Tlist_Enable_Fold_Column = 0    "Don't Show the fold indicator column
-let Tlist_File_Fold_Auto_Close = 1  "Autoclose the fold for non-active buffer
+"let Tlist_Enable_Fold_Column = 0    "Don't Show the fold indicator column
+"let Tlist_File_Fold_Auto_Close = 1  "Autoclose the fold for non-active buffer
 
-let g:Tlist_langs = ['c', 'cpp', 'vim', 'java', 'perl', 'python', 'js']
+"let g:Tlist_langs = ['c', 'cpp', 'vim', 'java', 'perl', 'python', 'js']
 
 function CheckWideMonitor()
     if &columns > 180
@@ -356,13 +357,13 @@ function UpdateTlistState()
 endfunction
 
 call CheckWideMonitor()
-autocmd VimResized * call UpdateTlistState()
-autocmd TabEnter * call UpdateTlistState()
-autocmd WinEnter * call CheckWideMonitor()
+"autocmd VimResized * call UpdateTlistState()
+"autocmd TabEnter * call UpdateTlistState()
+"autocmd WinEnter * call CheckWideMonitor()
 
 " tt toggles on and off the tag list
 "nnoremap tt :TlistToggle<CR>
-nnoremap tt :call CheckAndToggleTlist()<CR>
+"nnoremap tt :call CheckAndToggleTlist()<CR>
 
 
 "Marks Help
