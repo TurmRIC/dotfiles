@@ -32,3 +32,7 @@ release_to_msm() {
     ssh msm mkdir /tftpboot/tintagel/REL_4D_${1}
     scp REL_4D_${1}* msm:/tftpboot/tintagel/REL_4D_${1}/
 }
+
+set_config_file() {
+    export CONFIG_FILE=`pwd`/$1
+}
