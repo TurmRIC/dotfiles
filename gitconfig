@@ -13,6 +13,8 @@
     undo = reset --hard HEAD~1
     tags = log --simplify-by-decoration --pretty=\"format:%C(yellow)%h%Creset -%Cred%d%Creset %Cgreen%ai%Creset\"
     graphviz = "!f() { echo 'digraph git {' ; git log --pretty='format:  %h -> { %p }' \"$@\" | sed 's/[0-9a-f][0-9a-f]*/\"&\"/g' ; echo '}'; }; f"
+    fmc = fetch origin refs/meta/config:refs/remotes/origin/meta/config
+    pmc = push origin meta/config:meta/config
 [core]
     pager = less -qFX
     excludesfile = /home/jeremyro/.gitignore_global
