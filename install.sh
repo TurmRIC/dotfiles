@@ -37,3 +37,8 @@ install_files() {
 install_files "${install_dir}" "${HOME}" "."
 mkdir ${HOME}/.vim/swapfiles/ 2>/dev/null
 mkdir ${HOME}/.vim/backups/ 2>/dev/null
+
+#hook up neovim
+mkdir -p ${XDG_CONFIG_HOME:=$HOME/.config}
+ln -s ~/.vim $XDG_CONFIG_HOME/nvim
+ln -s ~/.vimrc $XDG_CONFIG_HOME/nvim/init.vim

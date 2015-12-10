@@ -79,7 +79,7 @@ highlight OverLength ctermbg=52 guibg=#5f0000
 "Highlight all columns after 100
 "call matchadd('OverLength', '\%>100v.\+', -2)
 
-if v:progname != "nvim"
+if !has('nvim')
     let g:loaded_matchparen = 1 "prevent matching parens to prevent slowdown since it ignores noshowmatch apparently
     set ttymouse=xterm2 "Set correct mouse type for vim
 endif
