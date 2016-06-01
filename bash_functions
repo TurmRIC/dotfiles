@@ -36,3 +36,11 @@ release_to_msm() {
 set_config_file() {
     export CONFIG_FILE=`pwd`/$1
 }
+
+vman() {
+    nvim -c "Man $1 $2" -c 'silent only'
+}
+
+upload_config() {
+    scp ${2} msm:/tftpboot/tintagel/${1}.tlv
+}
