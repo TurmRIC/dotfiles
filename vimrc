@@ -19,6 +19,9 @@ Plugin 'scrooloose/nerdtree'
 "to date
 Plugin 'file:///home/jeremyro/local_vim_plugins/taglist/'
 
+" Ack-grep plugin
+Plugin 'mileszs/ack.vim'
+
 "Source Explorer - Displays declarations given correct ctag information.
 Plugin 'wesleyche/SrcExpl'
 
@@ -36,11 +39,23 @@ Plugin 'file:///home/jeremyro/local_vim_plugins/tabline.vim/'
 Plugin 'file:///home/jeremyro/VCOMMON/vim-vecima/'
 "Plugin 'ssh://feanor/tftpboot/jeremyro/vim-vecima'
 
+"View Man pages in vim
+Plugin 'vim-utils/vim-man'
+
 Plugin 'xolox/vim-misc.git'
+
+" Try taghighlight sometime to see if it's better than easytags 
+" Plugin 'abudden/taghighlight-automirror'
 Plugin 'xolox/vim-easytags.git'
 Plugin 'tpope/vim-fugitive.git'
 Plugin 'guns/xterm-color-table.vim'
 Plugin 'git://git.code.sf.net/p/vim-latex/vim-latex.git'
+
+" Tabular
+Plugin 'godlygeek/tabular.git'
+
+"Temporary override of java indentation
+Plugin 'xuhdev/indent-java.vim'
 
 "json Highlighting
 Plugin 'elzr/vim-json'
@@ -232,6 +247,11 @@ map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans
 " Clear search highlighting until search is interacted with again
 nnoremap <LocalLeader>/ :noh<CR>
 
+" Ack the current word under the cursor
+nnoremap <LocalLeader>a :Ack! <C-r><C-w><CR>
+" Ack the current word under the cursor TODO- search from ramdisk_root
+" somehow.
+nnoremap <LocalLeader>A :Ack! <C-r><C-w><CR>
 " ----------------------------------------------------------------------------
 " Spellchecking
 " ----------------------------------------------------------------------------
