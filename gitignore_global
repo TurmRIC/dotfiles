@@ -8,6 +8,8 @@
 #Vim files
 .*.swp
 .vimtags
+.tags
+_vimrc_local.vim
 
 # compiled documentation files
 *.pdf

@@ -42,14 +42,23 @@ Plugin 'file:///home/jeremyro/VCOMMON/vim-vecima/'
 "View Man pages in vim
 Plugin 'vim-utils/vim-man'
 
+" local_vimrc as a better way of setting the tags file, and possibly other
+" vecima specific settings
+Plugin 'LucHermitte/lh-vim-lib'
+Plugin 'LucHermitte/local_vimrc'
+
 Plugin 'xolox/vim-misc.git'
 
 " Try taghighlight sometime to see if it's better than easytags 
 " Plugin 'abudden/taghighlight-automirror'
 Plugin 'xolox/vim-easytags.git'
+
 Plugin 'tpope/vim-fugitive.git'
+
 Plugin 'guns/xterm-color-table.vim'
-Plugin 'git://git.code.sf.net/p/vim-latex/vim-latex.git'
+
+"Plugin 'git://git.code.sf.net/p/vim-latex/vim-latex.git'
+Plugin 'vim-latex/vim-latex.git'
 
 " Tabular
 Plugin 'godlygeek/tabular.git'
@@ -82,17 +91,9 @@ set cino=t0=0l1(0W2s
 set autochdir       "working directory follows current file
 set history=1000    "lots of command line history
 colorscheme miko
-"let &colorcolumn="80,".join(range(100,300),",") "set colorcolumns for 80 and 100+ columns.
 
 "OverLength highlight group
 highlight OverLength ctermbg=52 guibg=#5f0000
-
-"Add the following to the filetype specific after plugins to highlight on all
-"open tabs
-"Highlight the 81st column
-"call matchadd('OverLength', '\%81v', -1)
-"Highlight all columns after 100
-"call matchadd('OverLength', '\%>100v.\+', -2)
 
 if !has('nvim')
     let g:loaded_matchparen = 1 "prevent matching parens to prevent slowdown since it ignores noshowmatch apparently
@@ -137,14 +138,14 @@ set nu              "Turn on line numbers on the left
 set wildmenu        "turn on wild menu (better filename completion)
 set wildmode=list:longest,full
 set wildignore=*.o,*.obj,*.bak,*.exe,*.so*,*.a,CVS/ "don't list when tab-complete open
+
 "A status line at the bottom
 set statusline=%<%f\ %([%R%M]%)\ [%{&ff}]\ [%l,%v]\ [%p%%]\ %{SyntasticStatuslineFlag()}%=%(Tag:[%{Tlist_Get_Tagname_By_Line()}]%)
 set laststatus=2                    "always show status line
 setlocal spell spelllang=en_us  "set spell check language
-"Set custom directory for swap files so that they are always on a local filesystem
-set directory=~/.vim/swapfiles//
-set backupdir=~/.vim/backups//
+
 filetype plugin on "Turn the filetype plugins on to keep file type specific settings out of here.
+set switchbuf+=usetab,newtab "Use a new or existing tab when opening new buffer from quickfix window
 
 let g:load_doxygen_syntax=1     "highlight doxygen comments
 "Doxygen plugin setup"
@@ -194,12 +195,6 @@ let g:easytags_async = 1 "tells easytags to asynchronously update the tags file
 autocmd BufRead,BufNewFile *.[ch],*.def HighlightTags
 
 " ----------------------------------------------------------------------------
-" tabline
-" ----------------------------------------------------------------------------
-"let g:tabline_modified = '+'
-"let g:tabline_separator = ' | '
-"let g:tabline_close = "{X}"
-" ----------------------------------------------------------------------------
 " Autocommands
 " ----------------------------------------------------------------------------
 "Set the titlestring to the current directory/filename
@@ -216,9 +211,9 @@ autocmd WinEnter * let &titlestring = expand("%:p:h:t") . '/' . expand("%:p:t")
 let maplocalleader = ","
 
 " ----------------------------------------------------------------------------
-" quicker access to the system clipboard
+" Mappings
 " ----------------------------------------------------------------------------
-
+" quicker access to the system clipboard
 vnoremap <silent><LocalLeader>y "*yy
 onoremap <silent><LocalLeader>y "*yy
 nnoremap <silent><LocalLeader>y "*yy
@@ -227,9 +222,6 @@ vnoremap <silent><LocalLeader>p "*p<cr>
 onoremap <silent><LocalLeader>p "*p<cr>
 nnoremap <silent><LocalLeader>p "*p<cr>
 
-" ----------------------------------------------------------------------------
-" Mappings
-" ----------------------------------------------------------------------------
 " bt switches window splits like gt does tabs
 nnoremap bt <C-W>w
 
@@ -249,9 +241,8 @@ nnoremap <LocalLeader>/ :noh<CR>
 
 " Ack the current word under the cursor
 nnoremap <LocalLeader>a :Ack! <C-r><C-w><CR>
-" Ack the current word under the cursor TODO- search from ramdisk_root
-" somehow.
-nnoremap <LocalLeader>A :Ack! <C-r><C-w><CR>
+" Ack the current word under the cursor from ramdisk_root
+nnoremap <LocalLeader>A :Ack! <C-r><C-w> <C-r>=b:ackdir<CR><CR>
 " ----------------------------------------------------------------------------
 " Spellchecking
 " ----------------------------------------------------------------------------
@@ -279,14 +270,10 @@ function! Tab_Or_Complete()
 endfunction
 inoremap <Tab> <C-R>=Tab_Or_Complete()<CR>
 
-"Look for the tags file backward, giveup if 14_Overlay is found
-set tags=./.tags;/home/jeremyro/4D_Tintagel/
-"set tags=/home/jeremyro/4D_Tintagel/.vimtags
-
 "Following a tag will open a new tab, not replace the current window
-nnoremap <silent><C-]> <C-w><C-]><C-w>T
+nnoremap <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 "Return from a tag to the previous tab
-nnoremap <silent><C-T> <C-T> :tabc<CR> :tabp<CR>
+"nnoremap <silent><A-T> <C-T> :tabc<CR> :tabp<CR>
 
 
 " ---------------------------------------------------------------------------
@@ -381,9 +368,7 @@ autocmd TabEnter * call UpdateTlistState()
 autocmd WinEnter * call CheckWideMonitor()
 
 " tt toggles on and off the tag list
-"nnoremap tt :TlistToggle<CR>
 nnoremap tt :call CheckAndToggleTlist()<CR>
-
 
 "Marks Help
 "   `.              Jump to last change
