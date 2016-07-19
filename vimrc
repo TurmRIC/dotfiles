@@ -47,17 +47,14 @@ Plugin 'vim-utils/vim-man'
 Plugin 'LucHermitte/lh-vim-lib'
 Plugin 'LucHermitte/local_vimrc'
 
-Plugin 'xolox/vim-misc.git'
-
-" Try taghighlight sometime to see if it's better than easytags 
-" Plugin 'abudden/taghighlight-automirror'
-Plugin 'xolox/vim-easytags.git'
+if has('nvim')
+    Plugin 'arakashic/chromatica.nvim'
+endif
 
 Plugin 'tpope/vim-fugitive.git'
 
 Plugin 'guns/xterm-color-table.vim'
 
-"Plugin 'git://git.code.sf.net/p/vim-latex/vim-latex.git'
 Plugin 'vim-latex/vim-latex.git'
 
 " Tabular
@@ -183,16 +180,12 @@ let g:syntastic_check_on_open=0
 let g:syntastic_check_on_wq=0
 
 " ----------------------------------------------------------------------------
-" EasyTags
+" Chromatica Global Options
 " ----------------------------------------------------------------------------
-let g:easytags_dynamic_files = 1 "tells easytags to use the vim dynamic tags file
-"let g:easytags_auto_update = 0 "tells easytags not to automatically update the tags file
-let g:easytags_python_enabled = 1 "tells easytags to use python if available
-"let g:easytags_updatetime_warn = 0
-"let g:easytags_updatetime_min = 30000
-let g:easytags_async = 1 "tells easytags to asynchronously update the tags file
-"autocmd Bufwrite *.[ch],*.def UpdateTags
-autocmd BufRead,BufNewFile *.[ch],*.def HighlightTags
+if has('nvim')
+    let g:chromatica#libclang_path='/usr/lib/llvm-3.6/lib/libclang.so.1'
+    call remote#host#RegisterPlugin('python3', expand('~/.vim/bundle/chromatica.nvim/rplugin/python3/chromatica'), [{'sync': v:true, 'name': '_chromatica', 'type': 'function', 'opts': {}},])
+endif
 
 " ----------------------------------------------------------------------------
 " Autocommands
@@ -234,8 +227,8 @@ nmap <silent> <C-right> :wincmd l<CR>
 map <LocalLeader>u :setlocal ff=unix
 
 "Display what syntax highlighting groups are at the cursor
-map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
-
+"map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+map <silent> <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">" . " FG:" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"fg#")<CR>
 " Clear search highlighting until search is interacted with again
 nnoremap <LocalLeader>/ :noh<CR>
 

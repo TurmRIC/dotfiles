@@ -10,6 +10,7 @@
 .vimtags
 .tags
 _vimrc_local.vim
+.clang
 
 # compiled documentation files
 *.pdf

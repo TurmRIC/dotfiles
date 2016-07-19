@@ -81,6 +81,7 @@ fi
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     eval "`dircolors -b`"
+    LS_COLORS=${LS_COLORS}:'di=1;96' ; export LS_COLORS
     alias ls='ls --color=auto'
     alias ll='ls -l --color=auto'
     alias la='ls -A --color=auto'
