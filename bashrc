@@ -103,7 +103,6 @@ fi
 if [ -d "$HOME/bin" ] ; then
     export PATH="$HOME/bin:$PATH"
 fi
-export GREP_OPTIONS='--color'
 export EDITOR=vim
 export LESS="-F -X -R"
 

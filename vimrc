@@ -184,6 +184,8 @@ let g:syntastic_check_on_wq=0
 " ----------------------------------------------------------------------------
 if has('nvim')
     let g:chromatica#libclang_path='/usr/lib/llvm-3.6/lib/libclang.so.1'
+    "let g:chromatica#responsive_mode=1
+    let g:chromatica#highlight_feature_level=1
     call remote#host#RegisterPlugin('python3', expand('~/.vim/bundle/chromatica.nvim/rplugin/python3/chromatica'), [{'sync': v:true, 'name': '_chromatica', 'type': 'function', 'opts': {}},])
 endif
 

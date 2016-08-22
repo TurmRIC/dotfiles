@@ -1,3 +1,6 @@
 --color
 --pager=less -qF
 --sort-files
+--ignore-dir=.mocks
+--ignore-dir=.xml
+
