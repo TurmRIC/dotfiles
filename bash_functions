@@ -44,3 +44,7 @@ vman() {
 upload_config() {
     scp ${2} msm:/tftpboot/tintagel/${1}.tlv
 }
+
+rules_test() {
+    cat ${1} | ssh gerrit gerrit test-submit rule ${2} -s
+}

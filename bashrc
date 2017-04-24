@@ -93,6 +93,7 @@ if [ -x /usr/bin/dircolors ]; then
     alias l='ls -CF --color=auto'
 fi
 
+set -o vi
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
@@ -122,6 +123,7 @@ then
     if [ -z "${SSH_AGENT_PID}" ]
     then
         export SSH_AGENT_PID=`pgrep ssh-agent`
+        export SSH_AUTH_SOCK=`ls /tmp/ssh-*/agent.*`
         if [ -z "${SSH_AGENT_PID}" ]
         then
             eval `ssh-agent -s`
@@ -151,6 +153,7 @@ export GCC_VERSION_POSTPEND=-4.8
 export CLANG_VERSION_POSTPEND=-3.6
 #export USE_CLANG=yes
 # Make the ASAN and MSAN symbolizers work...
+export USE_SANITIZERS=no
 export MSAN_SYMBOLIZER_PATH="`which llvm-symbolizer-3.6`"
 export ASAN_SYMBOLIZER_PATH="`which llvm-symbolizer-3.6`"
 export ASAN_OPTIONS=symbolize=1
