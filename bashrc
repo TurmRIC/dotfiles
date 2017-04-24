@@ -6,7 +6,12 @@
 [ -z "$PS1" ] && return
 
 export LANG=en_CA.UTF-8
-export TERM=xterm-256color
+if [[ -n "$TMUX" ]]
+then
+    export TERM
+else
+    export TERM=xterm-256color
+fi
 
 # don't put duplicate lines in the history. See bash(1) for more options
 # don't overwrite GNU Midnight Commander's setting of `ignorespace'.

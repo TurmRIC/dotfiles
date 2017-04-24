@@ -25,6 +25,9 @@ Plugin 'mileszs/ack.vim'
 "Source Explorer - Displays declarations given correct ctag information.
 Plugin 'wesleyche/SrcExpl'
 
+"Vimux allows vim to interact with tmux panes
+Plugin 'benmills/vimux'
+
 " Trinity manages taglist, Source Explorer and NERD Tree. Includes NERD Tree
 " directly - Doesn't currently support multiple tabs so it's out until further
 " notice.
@@ -238,6 +241,21 @@ nnoremap <LocalLeader>/ :noh<CR>
 nnoremap <LocalLeader>a :Ack! <C-r><C-w><CR>
 " Ack the current word under the cursor from ramdisk_root
 nnoremap <LocalLeader>A :Ack! <C-r><C-w> <C-r>=b:ackdir<CR><CR>
+
+" ----------------------------------------------------------------------------
+" Vimux Settings and Mappings
+" ----------------------------------------------------------------------------
+let g:VimuxOrientation = "h"
+let g:VimuxHeight = "40"
+" Prompt for a command to run
+vnoremap <silent><LocalLeader>vp :VimuxPromptCommand<CR>
+onoremap <silent><LocalLeader>vp :VimuxPromptCommand<CR>
+nnoremap <silent><LocalLeader>vp :VimuxPromptCommand<CR>
+" Run last command executed by VimuxRunCommand
+vnoremap <silent><LocalLeader>vl :VimuxRunLastCommand<CR>
+onoremap <silent><LocalLeader>vl :VimuxRunLastCommand<CR>
+nnoremap <silent><LocalLeader>vl :VimuxRunLastCommand<CR>
+
 " ----------------------------------------------------------------------------
 " Spellchecking
 " ----------------------------------------------------------------------------
