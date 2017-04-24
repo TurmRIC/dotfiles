@@ -42,9 +42,6 @@ Plugin 'file:///home/jeremyro/local_vim_plugins/tabline.vim/'
 Plugin 'file:///home/jeremyro/VCOMMON/vim-vecima/'
 "Plugin 'ssh://feanor/tftpboot/jeremyro/vim-vecima'
 
-"View Man pages in vim
-Plugin 'vim-utils/vim-man'
-
 " local_vimrc as a better way of setting the tags file, and possibly other
 " vecima specific settings
 Plugin 'LucHermitte/lh-vim-lib'
