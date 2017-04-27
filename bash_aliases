@@ -1,7 +1,7 @@
 #!/bin/bash
 #vim:filetype=sh
 
-alias vim='nvim -p'
+alias vim='tvim'
 alias nvim='nvim -p'
 alias gvim='gvim -p'
 alias cim='vim -p `ls ../include/*.h` `ls *.h` `ls *.c`'

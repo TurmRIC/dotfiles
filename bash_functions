@@ -48,3 +48,17 @@ upload_config() {
 rules_test() {
     cat ${1} | ssh gerrit gerrit test-submit rule ${2} -s
 }
+
+tvim() {
+    dir=`pwd | sed -e "s;.*4P_Overlay;;" -e "s;/home/jeremyro;~;"`
+    cmd="nvim -p $@"
+    if [ -n "$TMUX" ]; then
+        tmux split-window -h "${cmd}" \; \
+            select-layout main-vertical
+    else
+        tmux new-session \; \
+            split-window -h "${cmd}" \; \
+            select-layout main-vertical \; \
+            attach 
+    fi
+}

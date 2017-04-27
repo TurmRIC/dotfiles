@@ -58,10 +58,21 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
-if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u\[\033[00m\]@\[\033[01;31m\]\h\[\033[00m\]:\[\033[01;36m\]\w\[\033[00m\]\$ '
+if [ "$color_prompt" = yes ]
+then
+    if [ -n "$TMUX" ]
+    then
+        PS1='${debian_chroot:+($debian_chroot)}\[\033[01;36m\]$(short_pwd.py)\[\033[00m\]\$ '
+    else
+        PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u\[\033[00m\]@\[\033[01;31m\]\h\[\033[00m\]:\[\033[01;36m\]$(short_pwd.py)\[\033[00m\]\$ '
+    fi
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+    if [ -n "$TMUX" ]
+    then
+        PS1='${debian_chroot:+($debian_chroot)}$(short_pwd.py)\$ '
+    else
+        PS1='${debian_chroot:+($debian_chroot)}\u@\h:$(short_pwd.py)\$ '
+    fi
 fi
 unset color_prompt force_color_prompt
 
