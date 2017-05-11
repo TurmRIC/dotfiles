@@ -52,13 +52,27 @@ rules_test() {
 tvim() {
     dir=`pwd | sed -e "s;.*4P_Overlay;;" -e "s;/home/jeremyro;~;"`
     cmd="nvim -p $@"
-    if [ -n "$TMUX" ]; then
-        tmux split-window -h "${cmd}" \; \
-            select-layout main-vertical
+    cols=`tput cols`
+    echo $cols
+    if [ -n "$TMUX" ];
+    then
+        if [ ${cols} -lt 130 ]
+        then
+            ${cmd}
+        else
+            tmux split-window -h "${cmd}" \; \
+                select-layout main-vertical
+        fi
     else
-        tmux new-session \; \
-            split-window -h "${cmd}" \; \
-            select-layout main-vertical \; \
-            attach 
+        if [ ${cols} -lt 130 ]
+        then
+            tmux new-session -d "${cmd}" \; \
+                attach 
+        else
+            tmux new-session \; \
+                split-window -h "${cmd}" \; \
+                select-layout main-vertical \; \
+                attach 
+        fi
     fi
 }
