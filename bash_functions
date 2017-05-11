@@ -51,7 +51,12 @@ rules_test() {
 
 tvim() {
     dir=`pwd | sed -e "s;.*4P_Overlay;;" -e "s;/home/jeremyro;~;"`
-    cmd="nvim -p $@"
+    if which nvim > /dev/null
+    then
+        cmd="nvim -p $@"
+    else
+        cmd="vim -p $@"
+    fi
     cols=`tput cols`
     echo $cols
     if [ -n "$TMUX" ];
