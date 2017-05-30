@@ -14,6 +14,8 @@ pwd = pwd.replace('4P_Overlay', '4P_O')
 pwd = pwd.replace('target_src', 't_s')
 pwd = pwd.replace('build_tools', 'b_t')
 pwd = pwd.replace('test_tools', 't_t')
+pwd = pwd.replace('ROOB_WORKING', 'ROOB')
+pwd = pwd.replace('RF_WORKING', 'RF')
 if len(pwd) > 40:
     pwd = re.sub(r'\bbin\b', 'b', pwd)
     pwd = re.sub(r'\blib\b', 'b', pwd)
