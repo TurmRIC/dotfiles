@@ -168,3 +168,16 @@ export USE_SANITIZERS=no
 export MSAN_SYMBOLIZER_PATH="`which llvm-symbolizer-3.6`"
 export ASAN_SYMBOLIZER_PATH="`which llvm-symbolizer-3.6`"
 export ASAN_OPTIONS=symbolize=1
+
+# Setup a persistent ssh agent socket when requested (on interactive ssh only)
+if [[ -n "$SSH_TTY" && -S "$SSH_AUTH_SOCK" ]]; then
+    ln -sf $SSH_AUTH_SOCK ~/.ssh/ssh_auth_sock
+fi
+
+# Launch TMUX when an interactive shell is asked for
+if command -v tmux>/dev/null; then
+    #[[ ! $TERM =~ screen ]] && [ -z $TMUX ] && exec tmux
+    case $- in *i*)
+        [ -z "$TMUX" ] && exec tmux
+    esac
+fi
