@@ -58,7 +58,6 @@ tvim() {
         cmd="vim -p $@"
     fi
     cols=`tput cols`
-    echo $cols
     if [ -n "$TMUX" ];
     then
         if [ ${cols} -lt 130 ]
