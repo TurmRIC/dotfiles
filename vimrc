@@ -237,6 +237,8 @@ nmap <silent> <C-left> :wincmd h<CR>
 nmap <silent> <C-right> :wincmd l<CR>
 " Convert file type to unix
 map <LocalLeader>u :setlocal ff=unix
+" Tidy HTML file
+map <LocalLeader>t :!tidy -miq -wrap 0 %
 
 "Display what syntax highlighting groups are at the cursor
 "map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
