@@ -92,9 +92,6 @@ set autochdir       "working directory follows current file
 set history=1000    "lots of command line history
 colorscheme miko
 
-"OverLength highlight group
-highlight OverLength ctermbg=52 guibg=#5f0000
-
 if !has('nvim')
     let g:loaded_matchparen = 1 "prevent matching parens to prevent slowdown since it ignores noshowmatch apparently
     set ttymouse=xterm2 "Set correct mouse type for vim

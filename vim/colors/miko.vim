@@ -10,6 +10,15 @@ endif
 set t_Co=256
 let g:colors_name = "miko"
 
+"Syntastic Highligt Groups
+hi SyntasticError           ctermbg=88      guibg=#870000
+hi SyntasticWarning         ctermbg=94      guibg=#875f00
+hi SyntasticStyleError      ctermbg=88      guibg=#870000
+hi SyntasticStyleWarning    ctermbg=94      guibg=#875f00
+
+"OverLength highlight group
+hi OverLength               ctermbg=52      guibg=#5f0000
+
 hi Normal                   guifg=#afd7ff   guibg=#080808   guisp=NONE    gui=NONE
 hi Normal                   ctermfg=153     ctermbg=232     cterm=NONE
 hi ColorColumn              guifg=NONE      guibg=#262626   guisp=NONE    gui=NONE
