@@ -159,16 +159,6 @@ then
     rm ${ID_FINGER_PRINTS}
 fi
 
-#set postpends for gcc and clang for vecima build environment
-export GCC_VERSION_POSTPEND=-4.8
-export CLANG_VERSION_POSTPEND=-3.6
-#export USE_CLANG=yes
-# Make the ASAN and MSAN symbolizers work...
-export USE_SANITIZERS=no
-export MSAN_SYMBOLIZER_PATH="`which llvm-symbolizer-3.6`"
-export ASAN_SYMBOLIZER_PATH="`which llvm-symbolizer-3.6`"
-export ASAN_OPTIONS=symbolize=1
-
 # Setup a persistent ssh agent socket when requested (on interactive ssh only)
 if [[ -n "$SSH_TTY" && -S "$SSH_AUTH_SOCK" ]]; then
     ln -sf $SSH_AUTH_SOCK ~/.ssh/ssh_auth_sock

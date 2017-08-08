@@ -63,6 +63,8 @@ Plugin 'vim-latex/vim-latex.git'
 " Tabular
 Plugin 'godlygeek/tabular.git'
 
+" Groovy Indentation
+" Plugin 'vim-scripts/groovyindent-unix'
 "Temporary override of java indentation
 Plugin 'xuhdev/indent-java.vim'
 
@@ -183,7 +185,8 @@ let g:syntastic_check_on_wq=0
 " Chromatica Global Options
 " ----------------------------------------------------------------------------
 if has('nvim')
-    let g:chromatica#libclang_path='/usr/lib/llvm-3.8/lib/libclang.so.1'
+    "let g:chromatica#libclang_path='/usr/lib/llvm-3.8/lib/libclang.so.1'
+    let g:chromatica#libclang_path='/opt/galiano/2.1/sysroots/x86_64-galiano_sdk-linux/usr/lib/libclang.so'
     "let g:chromatica#responsive_mode=1
     let g:chromatica#highlight_feature_level=1
     "call remote#host#RegisterPlugin('python3', expand('~/.vim/bundle/chromatica.nvim/rplugin/python3/chromatica'), [{'sync': v:true, 'name': '_chromatica', 'type': 'function', 'opts': {}},])

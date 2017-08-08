@@ -18,7 +18,7 @@ pwd = pwd.replace('ROOB_WORKING', 'ROOB')
 pwd = pwd.replace('RF_WORKING', 'RF')
 if len(pwd) > 40:
     pwd = re.sub(r'\bbin\b', 'b', pwd)
-    pwd = re.sub(r'\blib\b', 'b', pwd)
+    pwd = re.sub(r'\blib\b', 'l', pwd)
     pwd = re.sub(r'\bsrc\b', 's', pwd)
     pwd = re.sub(r'\btest\b', 't', pwd)
     if len(pwd) > 40:
