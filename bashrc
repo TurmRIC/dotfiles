@@ -164,10 +164,16 @@ if [[ -n "$SSH_TTY" && -S "$SSH_AUTH_SOCK" ]]; then
     ln -sf $SSH_AUTH_SOCK ~/.ssh/ssh_auth_sock
 fi
 
-# Launch TMUX when an interactive shell is asked for
-if command -v tmux>/dev/null; then
-    #[[ ! $TERM =~ screen ]] && [ -z $TMUX ] && exec tmux
-    case $- in *i*)
-        [ -z "$TMUX" ] && exec tmux
-    esac
+# Launch TMUX when an interactive shell is asked for from the local machine. 
+# SSH sessions may want a unique tmux, or they may not
+if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+    echo Local TMUX sessions:
+    tmux list-sessions
+else
+    if command -v tmux>/dev/null; then
+        #[[ ! $TERM =~ screen ]] && [ -z $TMUX ] && exec tmux
+        case $- in *i*)
+            [ -z "$TMUX" ] && exec tmux
+        esac
+    fi
 fi
