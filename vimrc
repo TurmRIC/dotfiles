@@ -80,6 +80,7 @@ call vundle#end()
 " ---------------------------------------------------------------------------
 syntax on           "filetype syntax highlighting
 
+set guicursor=      "set guicursor= in order to disable cursor switching and prevent phantom q characters
 set nocompatible    "don't emulate original vi
 set modelines=0     "prevent security exploits
 filetype on         "identify file types
