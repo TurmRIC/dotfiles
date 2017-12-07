@@ -222,11 +222,16 @@ onoremap <silent><LocalLeader>p "*p<cr>
 nnoremap <silent><LocalLeader>p "*p<cr>
 
 " JSON cleanup
-command! -range -nargs=0 -bar JsonTool <line1>,<line2>!python -m json.tool
-" vnoremap <silent><LocalLeader>jt %!python -m json.tool<cr>
-vnoremap <silent><LocalLeader>jt :JsonTool<cr>
-onoremap <silent><LocalLeader>jt :JsonTool<cr>
-nnoremap <silent><LocalLeader>jt :JsonTool<cr>
+command! -range -nargs=0 -bar JSONFormat <line1>,<line2>!python -m json.tool
+vnoremap <silent><LocalLeader>jt :JSONFormat<cr>
+onoremap <silent><LocalLeader>jt :JSONFormat<cr>
+nnoremap <silent><LocalLeader>jt :%!python -m json.tool
+
+" XML Cleanup
+command! -range -nargs=0 -bar XMLFormat <line1>,<line2>!xmllint --format -encode UTF-8 --recover - 2>/dev/null
+vnoremap <silent><LocalLeader>xt :XMLFormat<cr>
+onoremap <silent><LocalLeader>xt :XMLFormat<cr>
+nnoremap <silent><LocalLeader>xt :%!xmllint --format -encode UTF-8 --recover -<cr>
 
 " bt switches window splits like gt does tabs
 nnoremap bt <C-W>w
