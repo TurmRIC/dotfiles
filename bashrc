@@ -85,6 +85,14 @@ xterm*|rxvt*)
     ;;
 esac
 
+# Detect if we are inside a container or not
+if cat /proc/1/cgroup | grep memory | grep -q init.scope
+then
+    export INSIDE_CONTAINER=no
+else
+    export INSIDE_CONTAINER=yes
+fi
+
 # Alias definitions.
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
@@ -166,14 +174,17 @@ fi
 
 # Launch TMUX when an interactive shell is asked for from the local machine. 
 # SSH sessions may want a unique tmux, or they may not
-if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
-    echo Local TMUX sessions:
-    tmux list-sessions
-else
-    if command -v tmux>/dev/null; then
-        #[[ ! $TERM =~ screen ]] && [ -z $TMUX ] && exec tmux
-        case $- in *i*)
-            [ -z "$TMUX" ] && exec tmux
-        esac
+if [ "${INSIDE_CONTAINER}" = "no" ]
+then
+    if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+        echo Local TMUX sessions:
+        tmux list-sessions
+    else
+        if command -v tmux>/dev/null; then
+            #[[ ! $TERM =~ screen ]] && [ -z $TMUX ] && exec tmux
+            case $- in *i*)
+                [ -z "$TMUX" ] && exec tmux
+            esac
+        fi
     fi
 fi

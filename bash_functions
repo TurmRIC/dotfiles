@@ -49,34 +49,47 @@ rules_test() {
     cat ${1} | ssh gerrit gerrit test-submit rule ${2} -s
 }
 
-tvim() {
-    dir=`pwd | sed -e "s;.*4P_Overlay;;" -e "s;/home/jeremyro;~;"`
-    if which nvim > /dev/null
-    then
-        cmd="nvim -p $@"
-    else
-        cmd="vim -p $@"
-    fi
-    cols=`tput cols`
-    if [ -n "$TMUX" ];
-    then
-        if [ ${cols} -lt 130 ]
+if [ "${INSIDE_CONTAINER}" = "no" ]
+then
+    tvim() {
+        dir=`pwd | sed -e "s;.*4P_Overlay;;" -e "s;/home/jeremyro;~;"`
+        if which nvim > /dev/null
         then
-            ${cmd}
+            cmd="nvim -p $@"
         else
-            tmux split-window -h "${cmd}" \; \
-                select-layout main-vertical
+            cmd="vim -p $@"
         fi
-    else
-        if [ ${cols} -lt 130 ]
+        cols=`tput cols`
+        if [ -n "$TMUX" ];
         then
-            tmux new-session -d "${cmd}" \; \
-                attach 
+            if [ ${cols} -lt 130 ]
+            then
+                ${cmd}
+            else
+                tmux split-window -h "${cmd}" \; \
+                    select-layout main-vertical
+            fi
         else
-            tmux new-session \; \
-                split-window -h "${cmd}" \; \
-                select-layout main-vertical \; \
-                attach 
+            if [ ${cols} -lt 130 ]
+            then
+                tmux new-session -d "${cmd}" \; \
+                    attach 
+            else
+                tmux new-session \; \
+                    split-window -h "${cmd}" \; \
+                    select-layout main-vertical \; \
+                    attach 
+            fi
         fi
-    fi
-}
+    }
+
+    ssh-builder() {
+        local BUILDER_IP=`grep ${1} /var/lib/misc/dnsmasq.lxcbr0.leases | awk '{print $3}'`
+        if [ -n "${BUILDER_IP}" ]
+        then
+            ssh -A ${BUILDER_IP}
+        else
+            echo "Cannot find ip for ${1}"
+        fi
+    }
+fi
