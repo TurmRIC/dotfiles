@@ -108,7 +108,6 @@ libtoolize/
 
 
 #Config file .mks
-*.mk
 ifac_sys_helpers.h
 .tq_*
 *.tlv
