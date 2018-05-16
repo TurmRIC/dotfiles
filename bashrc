@@ -137,7 +137,8 @@ export PATH="$PATH:/opt/eldk/usr/bin:/opt/eldk/bin"
 # Add TeX Live to the PATH
 export PATH="$PATH:/usr/local/texlive/2011/bin/x86_64-linux"
 
-if [ `hostname` = "PC2226" ]
+host=`hostname`
+if [ ${host} = "PC2226" -o ${host} = "pc2581" -o ${host} = "PC2581" ]
 then
     if [ -z "${SSH_AGENT_PID}" ]
     then
