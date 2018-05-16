@@ -1,0 +1,68 @@
+#!/usr/bin/zsh
+##vim:filetype=zsh
+# -- coloured manuals
+function man() {
+  env \
+    LESS_TERMCAP_mb=$(printf "\e[1;31m") \
+    LESS_TERMCAP_md=$(printf "\e[1;31m") \
+    LESS_TERMCAP_me=$(printf "\e[0m") \
+    LESS_TERMCAP_se=$(printf "\e[0m") \
+    LESS_TERMCAP_so=$(printf "\e[1;44;33m") \
+    LESS_TERMCAP_ue=$(printf "\e[0m") \
+    LESS_TERMCAP_us=$(printf "\e[1;32m") \
+    man "$@"
+}
+
+function release_to_msm() {
+    ssh msm mkdir /tftpboot/tintagel/REL_4D_${1}
+    scp REL_4D_${1}* msm:/tftpboot/tintagel/REL_4D_${1}/
+}
+
+function vman() {
+    nvim -c "Man $1 $2" -c 'silent only'
+}
+
+if [ "${INSIDE_CONTAINER}" = "no" ]
+then
+    function tvim() {
+        dir=`pwd | sed -e "s;.*4P_Overlay;;" -e "s;/home/jeremyro;~;"`
+        if which nvim > /dev/null
+        then
+            cmd="nvim -p $@"
+        else
+            cmd="vim -p $@"
+        fi
+        cols=`tput cols`
+        if [ -n "$TMUX" ];
+        then
+            if [ ${cols} -lt 130 ]
+            then
+                eval ${cmd}
+            else
+                tmux split-window -h "${cmd}" \; \
+                    select-layout main-vertical
+            fi
+        else
+            if [ ${cols} -lt 130 ]
+            then
+                tmux new-session -d "${cmd}" \; \
+                    attach 
+            else
+                tmux new-session \; \
+                    split-window -h "${cmd}" \; \
+                    select-layout main-vertical \; \
+                    attach 
+            fi
+        fi
+    }
+
+    function ssh-builder() {
+        local BUILDER_IP=`grep ${1} /var/lib/misc/dnsmasq.lxcbr0.leases | awk '{print $3}'`
+        if [ -n "${BUILDER_IP}" ]
+        then
+            ssh -A ${BUILDER_IP}
+        else
+            echo "Cannot find ip for ${1}"
+        fi
+    }
+fi
