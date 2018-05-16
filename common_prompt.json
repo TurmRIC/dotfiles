@@ -1,0 +1,21 @@
+{
+    "DirectoryAliasing": {
+        "FirstPass": [{"LongName": "4D_Tintagel", "ShortName": "4D"},
+                       {"LongName": "4D_Overlay", "ShortName": "4D_O"},
+                       {"LongName": "4P_Galiano", "ShortName": "4P"},
+                       {"LongName": "4P2_Parker", "ShortName": "4P2"},
+                       {"LongName": "4P_Overlay", "ShortName": "4P_O"},
+                       {"LongName": "target_src", "ShortName": "t_s"},
+                       {"LongName": "build_tools", "ShortName": "b_t"},
+                       {"LongName": "test_tools", "ShortName": "t_t"},
+                       {"LongName": "ROOB_WORKING", "ShortName": "ROOB"},
+                       {"LongName": "RF_WORKING", "ShortName": "RF"},
+                       {"LongName": "WORKING", "ShortName": "W"}
+        ],
+        "SecondPass": [{"RegEx": "\\bbin\\b", "Replacement": "b"},
+                        {"RegEx": "\\blib\\b", "Replacement": "l"},
+                        {"RegEx": "\\bsrc\\b", "Replacement": "s"},
+                        {"RegEx": "\\btest\\b", "Replacement": "t"}
+        ]
+    }
+}
