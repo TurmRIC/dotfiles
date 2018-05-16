@@ -14,6 +14,9 @@ Plugin 'scrooloose/syntastic.git'
 "NERD Tree - source browser
 Plugin 'scrooloose/nerdtree'
 
+"Bitbake recipes syntax highlighting
+Plugin 'kergoth/vim-bitbake'
+
 "Tablist Plugin
 "Fake repo since I can't find a git source for this bloody plugin that is up
 "to date
@@ -39,8 +42,9 @@ Plugin 'benmills/vimux'
 Plugin 'file:///home/jeremyro/local_vim_plugins/tabline.vim/'
 
 "Local vim repo for vecima specific items
-Plugin 'file:///home/jeremyro/VCOMMON/vim-vecima/'
+"Plugin 'file:///home/jeremyro/VCOMMON/vim-vecima/'
 "Plugin 'ssh://feanor/tftpboot/jeremyro/vim-vecima'
+Plugin 'ssh://rndgit:29418/tools/vim/vim-vecima'
 
 "View Man pages in vim
 "Plugin 'vim-utils/vim-man'
@@ -186,8 +190,8 @@ let g:syntastic_check_on_wq=0
 " Chromatica Global Options
 " ----------------------------------------------------------------------------
 if has('nvim')
-    "let g:chromatica#libclang_path='/usr/lib/llvm-3.8/lib/libclang.so.1'
-    let g:chromatica#libclang_path='/opt/galiano/2.1/sysroots/x86_64-galiano_sdk-linux/usr/lib/libclang.so'
+    let g:chromatica#libclang_path='/usr/lib/llvm-5.0/lib/libclang.so.1'
+    "let g:chromatica#libclang_path='/opt/galiano/2.1/sysroots/x86_64-galiano_sdk-linux/usr/lib/libclang.so'
     "let g:chromatica#responsive_mode=1
     let g:chromatica#highlight_feature_level=1
     "call remote#host#RegisterPlugin('python3', expand('~/.vim/bundle/chromatica.nvim/rplugin/python3/chromatica'), [{'sync': v:true, 'name': '_chromatica', 'type': 'function', 'opts': {}},])
@@ -209,6 +213,21 @@ autocmd WinEnter * let &titlestring = expand("%:p:h:t") . '/' . expand("%:p:t")
 " ---------------------------------------------------------------------------
 let maplocalleader = ","
 
+" ---------------------------------------------------------------------------
+" Clipboard stuff
+" ----------------------------------------------------------------------------
+let g:clipboard = {
+  \   'name': 'xclip-xfce4-clipman',
+  \   'copy': {
+  \      '+': 'xclip -selection clipboard',
+  \      '*': 'xclip -selection clipboard',
+  \    },
+  \   'paste': {
+  \      '+': 'xclip -selection clipboard -o',
+  \      '*': 'xclip -selection clipboard -o',
+  \   },
+  \   'cache_enabled': 1,
+  \ }
 " ----------------------------------------------------------------------------
 " Mappings
 " ----------------------------------------------------------------------------

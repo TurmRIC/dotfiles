@@ -57,8 +57,8 @@ hi SignColumn               guifg=NONE      guibg=NONE      guisp=NONE    gui=NO
 hi SignColumn               ctermfg=NONE    ctermbg=NONE    cterm=NONE
 hi IncSearch                guifg=#ffffff   guibg=#0066cc   guisp=#0066cc gui=NONE
 hi IncSearch                ctermfg=15      ctermbg=26      cterm=NONE
-hi MatchParen               guifg=NONE      guibg=NONE      guisp=NONE    gui=NONE
-hi MatchParen               ctermfg=NONE    ctermbg=NONE    cterm=NONE
+hi MatchParen               guifg=#080808   guibg=#afd7ff   guisp=NONE    gui=NONE
+hi MatchParen               ctermfg=232     ctermbg=153     cterm=NONE
 hi ModeMsg                  guifg=NONE      guibg=NONE      guisp=NONE    gui=NONE
 hi ModeMsg                  ctermfg=NONE    ctermbg=NONE    cterm=NONE
 hi MoreMsg                  guifg=NONE      guibg=NONE      guisp=NONE    gui=NONE
