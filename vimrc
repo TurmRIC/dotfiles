@@ -58,6 +58,9 @@ if has('nvim')
     Plugin 'arakashic/chromatica.nvim'
 endif
 
+" Linediff plugin, allow diff of groups of lines in a single file
+Plugin 'AndrewRadev/linediff.vim'
+
 Plugin 'tpope/vim-fugitive.git'
 
 Plugin 'guns/xterm-color-table.vim'
@@ -76,6 +79,8 @@ Plugin 'xuhdev/indent-java.vim'
 Plugin 'elzr/vim-json'
 
 Plugin 'DoxygenToolkit.vim'
+
+Plugin 'nathanalderson/yang.vim'
 
 call vundle#end()
 
@@ -275,6 +280,8 @@ nnoremap <LocalLeader>/ :noh<CR>
 nnoremap <LocalLeader>a :Ack! <C-r><C-w><CR>
 " Ack the current word under the cursor from ramdisk_root
 nnoremap <LocalLeader>A :Ack! <C-r><C-w> <C-r>=b:ackdir<CR><CR>
+
+vnoremap <LocalLeader>l :Linediff<CR>
 
 " ----------------------------------------------------------------------------
 " Vimux Settings and Mappings
