@@ -31,8 +31,14 @@ export LESS="-F -X -R"
 setopt nonomatch
 
 # Set up the prompt
+host=`hostname`
 setopt prompt_subst
-precmd() { PROMPT=$(common_prompt.py); print -Pn "\e]2;%{$(short_pwd.py)%}\a"; }
+if [ ${host} != 'vcmos-builder' ]
+then
+    precmd() { PROMPT=$(common_prompt.py); print -Pn "\e]2;%{$(short_pwd.py)%}\a"; }
+else
+    PROMPT='%F{154}%n%F{188}@%F{208}%M%F{188}:%F{214}%~%F{188}> '
+fi
 
 setopt histignorealldups sharehistory
 
@@ -41,6 +47,7 @@ HISTFILE=~/.histfile
 HISTSIZE=100000
 SAVEHIST=50000
 setopt appendhistory autocd extendedglob nomatch
+
 bindkey -v
 # End of lines configured by zsh-newuser-install
 
@@ -73,7 +80,6 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
 # Setup an ssh agent when starting on my work PC
-host=`hostname`
 if [ ${host} = "PC2226" -o ${host} = "pc2581" -o ${host} = "PC2581" ]
 then
     if [ -z "${SSH_AGENT_PID}" ]
