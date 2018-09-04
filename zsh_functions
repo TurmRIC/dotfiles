@@ -66,3 +66,71 @@ then
         fi
     }
 fi
+
+function list_subrepos() {
+    if [ $# != 1 ]
+    then
+        print -u2 "ERROR: Only one argument required."
+        print -u2 "$0 PARENT_PATH"
+        return 1
+    fi
+
+    parent_repo=${1}
+    ssh -p 29418 rndgit gerrit ls-projects --type code | grep ${parent_repo}
+}
+
+function list_zuul_subrepos() {
+    if [ $# != 1 ]
+    then
+        print -u2 "ERROR: Only one argument required."
+        print -u2 "$0 PARENT_PATH"
+        return 1
+    fi
+    parent_repo=${1}
+
+    ssh rnddevtools "grep ${parent_repo} /etc/zuul/layout.yaml" | sed -e 's/.*name: //'
+}
+
+function list_non_zuul_subrepos() {
+    if [ $# != 1 ]
+    then
+        print -u2 "ERROR: Only one argument required."
+        print -u2 "$0 PARENT_PATH"
+        return 1
+    fi
+
+    parent_repo=${1}
+    all_subrepos=$(list_subrepos ${parent_repo})
+    all_file=$(mktemp)
+    echo ${all_subrepos} > ${all_file}
+
+    zuul_subrepos=$(list_zuul_subrepos ${parent_repo})
+    zuul_file=$(mktemp)
+    echo ${zuul_subrepos} > ${zuul_file}
+
+    diff --suppress-common-lines --color=always ${all_file} ${zuul_file} | grep "^[+-]\<"
+    rm ${all_file} ${zuul_file} 
+}
+
+function checkout_subrepos() {
+    if [ $# != 1 ]
+    then
+        print -u2 "ERROR: Only one argument required."
+        print -u2 "$0 PARENT_PATH"
+        return 1
+    fi
+
+    parent_repo=${1}
+    for repo in `ssh -p 29418 rndgit gerrit ls-projects --type code | grep ${parent_repo}`
+    do
+        repo_subpath=$(echo ${repo} | sed -e "s|${parent_repo}/||")
+        if [ -d ${repo_subpath} ]
+        then
+            pushd $repo_subpath
+            git pull
+            popd
+        else
+            git clone ssh://jeremyro@rndgit:29418/$repo $repo_subpath
+        fi
+    done
+}
