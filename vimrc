@@ -89,7 +89,9 @@ call vundle#end()
 " ---------------------------------------------------------------------------
 syntax on           "filetype syntax highlighting
 
-set guicursor=      "set guicursor= in order to disable cursor switching and prevent phantom q characters
+set guicursor=n-v-c-sm:block-Cursor
+set guicursor+=i-ci-ve:ver50-CursorIM
+set guicursor+=r-cr-o:hor20-Cursor
 set nocompatible    "don't emulate original vi
 set modelines=0     "prevent security exploits
 filetype on         "identify file types
@@ -357,72 +359,88 @@ let g:SrcExpl_isUpdateTags = 0
 " ts toggles on and off the source explorer window
 nnoremap <silent> ts :SrcExplToggle<CR>
 
+
 " ---------------------------------------------------------------------------
 " TagList
 " ---------------------------------------------------------------------------
-let Tlist_Inc_Winwidth = 0          "Don't increase window width (doesn't work with Terminator)
-let Tlist_Ctags_Cmd='/usr/bin/ctags-exuberant' "Set tag command
-let Tlist_Auto_Open = 1             "Auto open Tag List
-let Tlist_Process_File_Always = 1   "Always process Tag List
-let Tlist_Auto_Highlight_Tag = 1    "Auto Highlight current tag
-let Tlist_Use_Right_Window = 1      "Open on the right
-"let Tlist_Display_Prototype = 1    "Display full prototype
-let Tlist_Exit_OnlyWindow = 1       "if you are the last, kill yourself
-"let Tlist_Compact_Format = 1        "Show compact information
-let Tlist_Enable_Fold_Column = 0    "Don't Show the fold indicator column
-let Tlist_File_Fold_Auto_Close = 1  "Autoclose the fold for non-active buffer
+let g:TagListInstalled = filter(split(&rtp, ','), 'v:val =~? "tag"')
+if (len(g:TagListInstalled) > 0)
+    let Tlist_Inc_Winwidth = 0          "Don't increase window width (doesn't work with Terminator)
+    let Tlist_Ctags_Cmd='/usr/bin/ctags-exuberant' "Set tag command
+    let Tlist_Auto_Open = 1             "Auto open Tag List
+    let Tlist_Process_File_Always = 1   "Always process Tag List
+    let Tlist_Auto_Highlight_Tag = 1    "Auto Highlight current tag
+    let Tlist_Use_Right_Window = 1      "Open on the right
+    "let Tlist_Display_Prototype = 1    "Display full prototype
+    let Tlist_Exit_OnlyWindow = 1       "if you are the last, exit
+    "let Tlist_Compact_Format = 1        "Show compact information
+    let Tlist_Enable_Fold_Column = 0    "Don't Show the fold indicator column
+    let Tlist_File_Fold_Auto_Close = 1  "Autoclose the fold for non-active buffer
 
-let g:Tlist_langs = ['c', 'cpp', 'vim', 'java', 'perl', 'python', 'js']
+    let g:Tlist_langs = ['c', 'cpp', 'vim', 'java', 'perl', 'python', 'js']
 
-function CheckWideMonitor()
-    if &columns > 180
-        let g:Tlist_Auto_Open = 1
-        let g:Tlist_WinWidth = 36
-        let g:NERDTreeWinSize = 36 
-    elseif &columns < 110 
-        let g:Tlist_Auto_Open = 0
-        let g:Tlist_WinWidth = 0
-        let g:NERDTreeWinSize = 0 
-    else
-        let g:Tlist_Auto_Open = 1
-        let g:Tlist_WinWidth = 31
-        let g:NERDTreeWinSize = 31 
-    endif
-endfunction
-
-function OpenOrCloseTlist()
-    if ('__Tag_List__' == bufname(winbufnr(winnr())))
-        wincmd h
-    endif
-    if (exists(':TlistClose') && -1 != index(g:Tlist_langs, &ft))
-        if g:Tlist_WinWidth == 0
-            TlistClose
+    function CheckWideMonitor()
+        if &columns > 180
+            let g:Tlist_Auto_Open = 1
+            let g:Tlist_WinWidth = 36
+            let g:NERDTreeWinSize = 36 
+            if (!exists('b:TagListWindowNumber'))
+                let b:TagListWindowNumber = 1
+            endif
+        elseif &columns < 110 
+            let g:Tlist_Auto_Open = 0
+            let g:Tlist_WinWidth = 0
+            let g:NERDTreeWinSize = 0 
+            if (!exists('b:TagListWindowNumber'))
+                let b:TagListWindowNumber = -3
+            endif
         else
-            TlistOpen
+            let g:Tlist_Auto_Open = 1
+            let g:Tlist_WinWidth = 31
+            let g:NERDTreeWinSize = 31 
+            if (!exists('b:TagListWindowNumber'))
+                let b:TagListWindowNumber = 1
+            endif
+        endif
+    endfunction
+
+    function OpenOrCloseTlist()
+        if ('__Tag_List__' == bufname('%'))
             wincmd h
         endif
-    endif
-endfunction
+        if (b:TagListWindowNumber > 0 && g:Tlist_WinWidth > 0)
+            TlistOpen
+            if ('__Tag_List__' == bufname('%'))
+                wincmd h
+            endif
+        else
+            TlistClose
+        endif
+    endfunction
 
-function CheckAndToggleTlist()
-    call CheckWideMonitor()
-    if (exists(':TlistToggle'))
+    function CheckAndToggleTlist()
         TlistToggle
+        let b:TagListWindowNumber = index(map(range(1, winnr('$')), 'bufname(winbufnr(v:val))'), '__Tag_List__')
+        if ('__Tag_List__' == bufname('%'))
+            wincmd h
+        endif
+    endfunction
+
+    function UpdateTlistState()
+        call CheckWideMonitor()
+        call OpenOrCloseTlist()
+    endfunction
+
+    autocmd VimResized * call UpdateTlistState()
+    if has('nvim')
+        autocmd TabNewEntered * call UpdateTlistState()
     endif
-endfunction
-
-function UpdateTlistState()
-    call CheckWideMonitor()
-    call OpenOrCloseTlist()
-endfunction
-
-call CheckWideMonitor()
-autocmd VimResized * call UpdateTlistState()
-autocmd TabEnter * call UpdateTlistState()
-autocmd WinEnter * call CheckWideMonitor()
+    autocmd WinEnter * call CheckWideMonitor()
+    autocmd BufWinEnter * call CheckWideMonitor()
 
 " tt toggles on and off the tag list
-nnoremap tt :call CheckAndToggleTlist()<CR>
+    nnoremap tt :call CheckAndToggleTlist()<CR>
+endif
 
 "Marks Help
 "   `.              Jump to last change
