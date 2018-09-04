@@ -15,7 +15,7 @@ else
 fi
 
 alias cim='vim -p `ls ../include/*.h` `ls *.h` `ls *.c`'
-alias diff='diff --strip-trailing-cr -U 10 -X ~/.diffexcludes -I "\$Id:.*\$"'
+alias diff='diff --color=auto --strip-trailing-cr -U 10 -X ~/.diffexcludes -I "\$Id:.*\$"'
 alias cvsdiff='cvs diff -I "\$Id:.*\$"'
 alias cgrep='grep -I --exclude-from=/home/jeremyro/.grepexcludes'
 alias egrep='grep -IE --exclude-from=/home/jeremyro/.grepexcludes'
