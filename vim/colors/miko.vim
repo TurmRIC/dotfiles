@@ -10,254 +10,203 @@ endif
 set t_Co=256
 let g:colors_name = "miko"
 
-"Syntastic Highligt Groups
-hi SyntasticError           ctermbg=88      guibg=#870000
-hi SyntasticWarning         ctermbg=94      guibg=#875f00
-hi SyntasticStyleError      ctermbg=88      guibg=#870000
-hi SyntasticStyleWarning    ctermbg=94      guibg=#875f00
+function! s:hi(group, ...)
+    let l:fg = get(a:, 1, -1)
+    let l:bg = get(a:, 2, -1)
+    let l:attr = get(a:, 3, "")
+    " Full 256 colour table
+    let l:gui_colours = {
+        \ '0':   '#000000', '1':   '#800000', '2':   '#008000', '3':   '#808000', '4':   '#000080',
+        \ '5':   '#800080', '6':   '#008080', '7':   '#c0c0c0', '8':   '#808080', '9':   '#ff0000',
+        \ '10':  '#00ff00', '11':  '#ffff00', '12':  '#0000ff', '13':  '#ff00ff', '14':  '#00ffff',
+        \ '15':  '#ffffff', '16':  '#000000', '17':  '#00005f', '18':  '#000087', '19':  '#0000af',
+        \ '20':  '#0000df', '21':  '#0000ff', '22':  '#005f00', '23':  '#005f5f', '24':  '#005f87',
+        \ '25':  '#005faf', '26':  '#005fdf', '27':  '#005fff', '28':  '#008700', '29':  '#00875f',
+        \ '30':  '#008787', '31':  '#0087af', '32':  '#0087df', '33':  '#0087ff', '34':  '#00af00',
+        \ '35':  '#00af5f', '36':  '#00af87', '37':  '#00afaf', '38':  '#00afdf', '39':  '#00afff',
+        \ '40':  '#00df00', '41':  '#00df5f', '42':  '#00df87', '43':  '#00dfaf', '44':  '#00dfdf',
+        \ '45':  '#00dfff', '46':  '#00ff00', '47':  '#00ff5f', '48':  '#00ff87', '49':  '#00ffaf',
+        \ '50':  '#00ffdf', '51':  '#00ffff', '52':  '#5f0000', '53':  '#5f005f', '54':  '#5f0087',
+        \ '55':  '#5f00af', '56':  '#5f00df', '57':  '#5f00ff', '58':  '#5f5f00', '59':  '#5f5f5f',
+        \ '60':  '#5f5f87', '61':  '#5f5faf', '62':  '#5f5fdf', '63':  '#5f5fff', '64':  '#5f8700',
+        \ '65':  '#5f875f', '66':  '#5f8787', '67':  '#5f87af', '68':  '#5f87df', '69':  '#5f87ff',
+        \ '70':  '#5faf00', '71':  '#5faf5f', '72':  '#5faf87', '73':  '#5fafaf', '74':  '#5fafdf',
+        \ '75':  '#5fafff', '76':  '#5fdf00', '77':  '#5fdf5f', '78':  '#5fdf87', '79':  '#5fdfaf',
+        \ '80':  '#5fdfdf', '81':  '#5fdfff', '82':  '#5fff00', '83':  '#5fff5f', '84':  '#5fff87',
+        \ '85':  '#5fffaf', '86':  '#5fffdf', '87':  '#5fffff', '88':  '#870000', '89':  '#87005f',
+        \ '90':  '#870087', '91':  '#8700af', '92':  '#8700df', '93':  '#8700ff', '94':  '#875f00',
+        \ '95':  '#875f5f', '96':  '#875f87', '97':  '#875faf', '98':  '#875fdf', '99':  '#875fff',
+        \ '100': '#878700', '101': '#87875f', '102': '#878787', '103': '#8787af', '104': '#8787df',
+        \ '105': '#8787ff', '106': '#87af00', '107': '#87af5f', '108': '#87af87', '109': '#87afaf',
+        \ '110': '#87afdf', '111': '#87afff', '112': '#87df00', '113': '#87df5f', '114': '#87df87',
+        \ '115': '#87dfaf', '116': '#87dfdf', '117': '#87dfff', '118': '#87ff00', '119': '#87ff5f',
+        \ '120': '#87ff87', '121': '#87ffaf', '122': '#87ffdf', '123': '#87ffff', '124': '#af0000',
+        \ '125': '#af005f', '126': '#af0087', '127': '#af00af', '128': '#af00df', '129': '#af00ff',
+        \ '130': '#af5f00', '131': '#af5f5f', '132': '#af5f87', '133': '#af5faf', '134': '#af5fdf',
+        \ '135': '#af5fff', '136': '#af8700', '137': '#af875f', '138': '#af8787', '139': '#af87af',
+        \ '140': '#af87df', '141': '#af87ff', '142': '#afaf00', '143': '#afaf5f', '144': '#afaf87',
+        \ '145': '#afafaf', '146': '#afafdf', '147': '#afafff', '148': '#afdf00', '149': '#afdf5f',
+        \ '150': '#afdf87', '151': '#afdfaf', '152': '#afdfdf', '153': '#afdfff', '154': '#afff00',
+        \ '155': '#afff5f', '156': '#afff87', '157': '#afffaf', '158': '#afffdf', '159': '#afffff',
+        \ '160': '#df0000', '161': '#df005f', '162': '#df0087', '163': '#df00af', '164': '#df00df',
+        \ '165': '#df00ff', '166': '#df5f00', '167': '#df5f5f', '168': '#df5f87', '169': '#df5faf',
+        \ '170': '#df5fdf', '171': '#df5fff', '172': '#df8700', '173': '#df875f', '174': '#df8787',
+        \ '175': '#df87af', '176': '#df87df', '177': '#df87ff', '178': '#dfaf00', '179': '#dfaf5f',
+        \ '180': '#dfaf87', '181': '#dfafaf', '182': '#dfafdf', '183': '#dfafff', '184': '#dfdf00',
+        \ '185': '#dfdf5f', '186': '#dfdf87', '187': '#dfdfaf', '188': '#dfdfdf', '189': '#dfdfff',
+        \ '190': '#dfff00', '191': '#dfff5f', '192': '#dfff87', '193': '#dfffaf', '194': '#dfffdf',
+        \ '195': '#dfffff', '196': '#ff0000', '197': '#ff005f', '198': '#ff0087', '199': '#ff00af',
+        \ '200': '#ff00df', '201': '#ff00ff', '202': '#ff5f00', '203': '#ff5f5f', '204': '#ff5f87',
+        \ '205': '#ff5faf', '206': '#ff5fdf', '207': '#ff5fff', '208': '#ff8700', '209': '#ff875f',
+        \ '210': '#ff8787', '211': '#ff87af', '212': '#ff87df', '213': '#ff87ff', '214': '#ffaf00',
+        \ '215': '#ffaf5f', '216': '#ffaf87', '217': '#ffafaf', '218': '#ffafdf', '219': '#ffafff',
+        \ '220': '#ffdf00', '221': '#ffdf5f', '222': '#ffdf87', '223': '#ffdfaf', '224': '#ffdfdf',
+        \ '225': '#ffdfff', '226': '#ffff00', '227': '#ffff5f', '228': '#ffff87', '229': '#ffffaf',
+        \ '230': '#ffffdf', '231': '#ffffff', '232': '#080808', '233': '#121212', '234': '#1c1c1c',
+        \ '235': '#262626', '236': '#303030', '237': '#3a3a3a', '238': '#444444', '239': '#4e4e4e',
+        \ '240': '#585858', '241': '#606060', '242': '#666666', '243': '#767676', '244': '#808080',
+        \ '245': '#8a8a8a', '246': '#949494', '247': '#9e9e9e', '248': '#a8a8a8', '249': '#b2b2b2',
+        \ '250': '#bcbcbc', '251': '#c6c6c6', '252': '#d0d0d0', '253': '#dadada', '254': '#e4e4e4',
+        \ '255': '#eeeeee',
+        \}
+    exec "hi clear " . a:group
+    if l:fg != -1
+        exec "hi " . a:group . " guifg=" . l:gui_colours[l:fg] . " ctermfg=" . l:fg
+    endif
+    if l:bg != -1
+        exec "hi " . a:group . " guibg=" . l:gui_colours[l:bg] . " ctermbg=" . l:bg
+    endif
+    if l:attr != ""
+        exec "hi " . a:group . " gui=" . l:attr . " cterm=" . l:attr
+    endif
+endfunction
+
+"Syntastic Highlight Groups
+call s:hi("SyntasticError", 88)
+call s:hi("SyntasticWarning", 94)
+call s:hi("SyntasticStyleError", 88)
+call s:hi("SyntasticStyleWarning", 94)
 
 "OverLength highlight group
-hi OverLength               ctermbg=52      guibg=#5f0000
+call s:hi("OverLength", -1, 52)
 
-hi Normal                   guifg=#afd7ff   guibg=#080808   guisp=NONE    gui=NONE
-hi Normal                   ctermfg=153     ctermbg=232     cterm=NONE
-hi ColorColumn              guifg=NONE      guibg=#262626   guisp=NONE    gui=NONE
-hi ColorColumn              ctermfg=NONE    ctermbg=235     cterm=NONE
-hi Cursor                   guifg=#ffffff   guibg=#5fff00   guisp=#5fff00 gui=bold
-hi Cursor                   ctermfg=15      ctermbg=82      cterm=bold
-hi CursorIM                 guifg=#070707   guibg=#7fff00   guisp=#7fff00 gui=NONE
-hi CursorIM                 ctermfg=232     ctermbg=118     cterm=NONE
-hi CursorColumn             guifg=NONE      guibg=#1c1c1c   guisp=NONE    gui=NONE
-hi CursorColumn             ctermfg=NONE    ctermbg=234     cterm=NONE
-hi CursorLine               guifg=NONE      guibg=#1c1c1c   guisp=NONE    gui=NONE
-hi CursorLine               ctermfg=NONE    ctermbg=234     cterm=NONE
-hi CursorLineNR             guifg=#00ff5f   guibg=#005f87   guisp=NONE    gui=NONE
-hi CursorLineNR             ctermfg=47      ctermbg=24      cterm=NONE
-hi DiffAdd                  guifg=#dadada   guibg=#0000ff   guisp=NONE    gui=NONE
-hi DiffAdd                  ctermfg=253     ctermbg=21      cterm=NONE
-hi DiffChange               guifg=#dadada   guibg=#008787   guisp=NONE    gui=NONE
-hi DiffChange               ctermfg=253     ctermbg=30      cterm=NONE
-hi DiffDelete               guifg=#00afff   guibg=#444444   guisp=NONE    gui=NONE
-hi DiffDelete               ctermfg=39      ctermbg=238     cterm=NONE
-hi DiffText                 guifg=#444444   guibg=#00afff   guisp=NONE    gui=NONE
-hi DiffText                 ctermfg=238     ctermbg=39      cterm=NONE
-hi ErrorMsg                 guifg=#af0000   guibg=NONE      guisp=NONE    gui=NONE
-hi ErrorMsg                 ctermfg=124     ctermbg=NONE    cterm=NONE
-hi Error                    guifg=NONE      guibg=NONE      guisp=NONE    gui=NONE
-hi Error                    ctermfg=NONE    ctermbg=NONE    cterm=NONE
-hi LineNr                   guifg=#d7d7d7   guibg=#005f87   guisp=#005f87 gui=NONE
-hi LineNr                   ctermfg=188     ctermbg=24      cterm=NONE
-hi VertSplit                guifg=#005f87   guibg=#d7d7d7   guisp=#d7d7d7 gui=NONE
-hi VertSplit                ctermfg=188     ctermbg=24      cterm=NONE
-hi Folded                   guifg=#d7d7d7   guibg=#005fdf   guisp=#005f87 gui=NONE
-hi Folded                   ctermfg=188     ctermbg=26      cterm=NONE
-hi FoldColumn               guifg=#005f87   guibg=#d7d7d7   guisp=#d7d7d7 gui=NONE
-hi FoldColumn               ctermfg=188     ctermbg=24      cterm=NONE
-hi SignColumn               guifg=NONE      guibg=NONE      guisp=NONE    gui=NONE
-hi SignColumn               ctermfg=NONE    ctermbg=NONE    cterm=NONE
-hi IncSearch                guifg=#ffffff   guibg=#0066cc   guisp=#0066cc gui=NONE
-hi IncSearch                ctermfg=15      ctermbg=26      cterm=NONE
-hi MatchParen               guifg=#080808   guibg=#afd7ff   guisp=NONE    gui=NONE
-hi MatchParen               ctermfg=232     ctermbg=153     cterm=NONE
-hi ModeMsg                  guifg=NONE      guibg=NONE      guisp=NONE    gui=NONE
-hi ModeMsg                  ctermfg=NONE    ctermbg=NONE    cterm=NONE
-hi MoreMsg                  guifg=NONE      guibg=NONE      guisp=NONE    gui=NONE
-hi MoreMsg                  ctermfg=NONE    ctermbg=NONE    cterm=NONE
-hi NonText                  guifg=#d7d7d7   guibg=NONE      guisp=NONE    gui=NONE
-hi NonText                  ctermfg=188     ctermbg=NONE    cterm=NONE
-hi PMenu                    guifg=#5f0000   guibg=#ffff00   guisp=#545658 gui=NONE
-hi PMenu                    ctermfg=52      ctermbg=226     cterm=NONE
-hi PMenuSbar                guifg=#ffff00   guibg=#5f0000   guisp=#005f87 gui=NONE
-hi PMenuSbar                ctermfg=226     ctermbg=52      cterm=NONE
-hi PMenuSel                 guifg=#005f00   guibg=#ffff00   guisp=#d7d7d7 gui=NONE
-hi PMenuSel                 ctermfg=22      ctermbg=226     cterm=NONE
-hi PMenuThumb               guifg=#af00ff   guibg=#ffff00   guisp=#d7d7d7 gui=NONE
-hi PMenuThumb               ctermfg=129     ctermbg=226     cterm=NONE
-hi Question                 guifg=NONE      guibg=NONE      guisp=NONE    gui=NONE
-hi Question                 ctermfg=NONE    ctermbg=NONE    cterm=NONE
-hi Search                   guifg=NONE      guibg=NONE      guisp=NONE    gui=inverse
-hi Search                   ctermfg=NONE    ctermbg=NONE    cterm=inverse
-hi SpecialKey               guifg=NONE      guibg=NONE      guisp=NONE    gui=NONE
-hi SpecialKey               ctermfg=NONE    ctermbg=NONE    cterm=NONE
-hi clear SpellBad
-hi SpellBad                 guifg=NONE      guibg=NONE      guisp=NONE    gui=underline,bold
-hi SpellBad                 ctermfg=NONE    ctermbg=NONE    cterm=underline,bold
-hi clear SpellCap
-hi SpellCap                 guifg=NONE      guibg=NONE      guisp=NONE    gui=underline
-hi SpellCap                 ctermfg=NONE    ctermbg=NONE    cterm=underline
-hi clear SpellRare
-hi SpellRare                guifg=NONE      guibg=NONE      guisp=NONE    gui=underline,bold
-hi SpellRare                ctermfg=NONE    ctermbg=NONE    cterm=underline,bold
-hi clear SpellLocal
-hi SpellLocal               guifg=NONE      guibg=NONE      guisp=NONE    gui=underline,bold
-hi SpellLocal               ctermfg=NONE    ctermbg=NONE    cterm=underline,bold
-hi StatusLine               guifg=#000000   guibg=#afd7ff   guisp=#afd7ff gui=NONE
-hi StatusLine               ctermfg=16      ctermbg=153     cterm=NONE
-hi StatusLineNC             guifg=#d7d7d7   guibg=#005f87   guisp=#005f87 gui=NONE
-hi StatusLineNC             ctermfg=188     ctermbg=24      cterm=NONE
-hi TabLine                  guifg=#d7d7d7   guibg=#005f87   guisp=#005f87 gui=NONE
-hi TabLine                  ctermfg=188     ctermbg=24      cterm=NONE
-hi TabLineFill              guifg=#d7d7d7   guibg=#005f87   guisp=#005f87 gui=NONE
-hi TabLineFill              ctermfg=188     ctermbg=24      cterm=NONE
-hi TabLineSel               guifg=#000000   guibg=#afd7ff   guisp=#afd7ff gui=bold
-hi TabLineSel               ctermfg=16      ctermbg=153     cterm=bold
-hi Title                    guifg=#d7d7d7   guibg=#005f87   guisp=#005f87 gui=NONE
-hi Title                    ctermfg=188     ctermbg=24      cterm=NONE
-hi Visual                   guifg=#080808   guibg=#afd7ff   guisp=#afd7ff gui=NONE
-hi Visual                   ctermfg=232     ctermbg=153     cterm=NONE
-hi VisualNOS                guifg=NONE      guibg=NONE      guisp=NONE    gui=NONE
-hi VisualNOS                ctermfg=NONE    ctermbg=NONE    cterm=NONE
-hi WarningMsg               guifg=NONE      guibg=NONE      guisp=NONE    gui=NONE
-hi WarningMsg               ctermfg=NONE    ctermbg=NONE    cterm=NONE
-hi WildMenu                 guifg=NONE      guibg=NONE      guisp=NONE    gui=NONE
-hi WildMenu                 ctermfg=NONE    ctermbg=NONE    cterm=NONE
-hi Boolean                  guifg=#ffffff   guibg=NONE      guisp=NONE    gui=bold
-hi Boolean                  ctermfg=15      ctermbg=NONE    cterm=bold
-hi Character                guifg=#ff0000   guibg=NONE      guisp=NONE    gui=NONE
-hi Character                ctermfg=196     ctermbg=NONE    cterm=NONE
-hi cif0                     guifg=#bebebe   guibg=NONE      guisp=NONE    gui=NONE
-hi cif0                     ctermfg=7       ctermbg=NONE    cterm=NONE
-hi Comment                  guifg=#5fd700   guibg=NONE      guisp=NONE    gui=NONE
-hi Comment                  ctermfg=76      ctermbg=NONE    cterm=NONE
-hi Conditional              guifg=#5fffff   guibg=NONE      guisp=NONE    gui=NONE
-hi Conditional              ctermfg=87      ctermbg=NONE    cterm=NONE
-hi Constant                 guifg=#ff00ff   guibg=NONE      guisp=NONE    gui=NONE
-hi Constant                 ctermfg=201     ctermbg=NONE    cterm=NONE
-hi CTagsClass               guifg=NONE      guibg=NONE      guisp=NONE    gui=NONE
-hi CTagsClass               ctermfg=NONE    ctermbg=NONE    cterm=NONE
-hi CTagsGlobalConstant      guifg=NONE      guibg=NONE      guisp=NONE    gui=NONE
-hi CTagsGlobalConstant      ctermfg=NONE    ctermbg=NONE    cterm=NONE
-hi CTagsGlobalVariable      guifg=NONE      guibg=NONE      guisp=NONE    gui=NONE
-hi CTagsGlobalVariable      ctermfg=NONE    ctermbg=NONE    cterm=NONE
-hi CTagsImport              guifg=NONE      guibg=NONE      guisp=NONE    gui=NONE
-hi CTagsImport              ctermfg=NONE    ctermbg=NONE    cterm=NONE
-hi CTagsMember              guifg=NONE      guibg=NONE      guisp=NONE    gui=NONE
-hi CTagsMember              ctermfg=NONE    ctermbg=NONE    cterm=NONE
-hi Debug                    guifg=#87d7ff   guibg=NONE      guisp=NONE    gui=NONE
-hi Debug                    ctermfg=117     ctermbg=NONE    cterm=NONE
-hi DefinedName              guifg=NONE      guibg=NONE      guisp=NONE    gui=NONE
-hi DefinedName              ctermfg=NONE    ctermbg=NONE    cterm=NONE
-hi Define                   guifg=#ff8700   guibg=NONE      guisp=NONE    gui=NONE
-hi Define                   ctermfg=208     ctermbg=NONE    cterm=NONE
-hi Delimiter                guifg=#87af5f   guibg=NONE      guisp=NONE    gui=NONE
-hi Delimiter                ctermfg=107     ctermbg=NONE    cterm=NONE
-hi Directory                guifg=NONE      guibg=NONE      guisp=NONE    gui=NONE
-hi Directory                ctermfg=NONE    ctermbg=NONE    cterm=NONE
-hi EnumerationName          guifg=NONE      guibg=NONE      guisp=NONE    gui=NONE
-hi EnumerationName          ctermfg=NONE    ctermbg=NONE    cterm=NONE
-hi EnumerationValue         guifg=NONE      guibg=NONE      guisp=NONE    gui=NONE
-hi EnumerationValue         ctermfg=NONE    ctermbg=NONE    cterm=NONE
-hi Exception                guifg=#000000   guibg=#ff0000   guisp=NONE    gui=NONE
-hi Exception                ctermfg=0       ctermbg=196     cterm=NONE
-hi Float                    guifg=#ff0000   guibg=NONE      guisp=NONE    gui=NONE
-hi Float                    ctermfg=196     ctermbg=NONE    cterm=NONE
-hi Function                 guifg=#5fafff   guibg=NONE      guisp=NONE    gui=bold
-hi Function                 ctermfg=75      ctermbg=NONE    cterm=bold
-hi htmlh2                   guifg=#ffffff   guibg=#221100   guisp=#221100 gui=bold
-hi htmlh2                   ctermfg=15      ctermbg=52      cterm=bold
-hi htmllink                 guifg=#ffff00   guibg=NONE      guisp=NONE    gui=NONE
-hi htmllink                 ctermfg=11      ctermbg=NONE    cterm=NONE
-hi icursor                  guifg=#000000   guibg=#FFEE00   guisp=#FFEE00 gui=NONE
-hi icursor                  ctermfg=NONE    ctermbg=11      cterm=NONE
-hi Identifier               guifg=#dfdf00   guibg=NONE      guisp=NONE    gui=NONE
-hi Identifier               ctermfg=184     ctermbg=NONE    cterm=NONE
-hi Ignore                   guifg=NONE      guibg=NONE      guisp=NONE    gui=NONE
-hi Ignore                   ctermfg=NONE    ctermbg=NONE    cterm=NONE
-hi Include                  guifg=#ff8700   guibg=NONE      guisp=NONE    gui=NONE
-hi Include                  ctermfg=208     ctermbg=NONE    cterm=NONE
-hi Keyword                  guifg=#5fff5f   guibg=NONE      guisp=NONE    gui=NONE
-hi Keyword                  ctermfg=83      ctermbg=NONE    cterm=NONE
-hi Label                    guifg=#5fffff   guibg=NONE      guisp=NONE    gui=NONE
-hi Label                    ctermfg=87      ctermbg=NONE    cterm=NONE
-hi lcursor                  guifg=#070707   guibg=#7fff00   guisp=#7fff00 gui=NONE
-hi lcursor                  ctermfg=232     ctermbg=118     cterm=NONE
-hi LocalVariable            guifg=NONE      guibg=NONE      guisp=NONE    gui=NONE
-hi LocalVariable            ctermfg=NONE    ctermbg=NONE    cterm=NONE
-hi Macro                    guifg=#ff8700   guibg=NONE      guisp=NONE    gui=NONE
-hi Macro                    ctermfg=208     ctermbg=NONE    cterm=NONE
-hi menu                     guifg=#000000   guibg=#ff6a6a   guisp=#ff6a6a gui=NONE
-hi menu                     ctermfg=NONE    ctermbg=9       cterm=NONE
-hi ncursor                  guifg=#000000   guibg=#FFFFFF   guisp=#FFFFFF gui=NONE
-hi ncursor                  ctermfg=NONE    ctermbg=15      cterm=NONE
-hi Number                   guifg=#ff0000   guibg=NONE      guisp=NONE    gui=NONE
-hi Number                   ctermfg=196     ctermbg=NONE    cterm=NONE
-hi operatorcurlybrackets    guifg=#5fafff   guibg=NONE      guisp=NONE    gui=bold
-hi operatorcurlybrackets    ctermfg=75      ctermbg=NONE    cterm=bold
-hi Operator                 guifg=#5fffaf   guibg=NONE      guisp=NONE    gui=NONE
-hi Operator                 ctermfg=85      ctermbg=NONE    cterm=NONE
-hi PreCondit                guifg=#ff8700   guibg=NONE      guisp=NONE    gui=NONE
-hi PreCondit                ctermfg=208     ctermbg=NONE    cterm=NONE
-hi PreProc                  guifg=#ff8700   guibg=NONE      guisp=NONE    gui=NONE
-hi PreProc                  ctermfg=208     ctermbg=NONE    cterm=NONE
-hi pythonbuiltin            guifg=#5181ab   guibg=NONE      guisp=NONE    gui=NONE
-hi pythonbuiltin            ctermfg=67      ctermbg=NONE    cterm=NONE
-hi pythoncomment            guifg=#5181ab   guibg=NONE      guisp=NONE    gui=italic
-hi pythoncomment            ctermfg=67      ctermbg=NONE    cterm=NONE
-hi pythonconditional        guifg=#000000   guibg=NONE      guisp=NONE    gui=bold
-hi pythonconditional        ctermfg=NONE    ctermbg=NONE    cterm=bold
-hi pythonimport             guifg=#894c24   guibg=NONE      guisp=NONE    gui=NONE
-hi pythonimport             ctermfg=94      ctermbg=NONE    cterm=NONE
-hi pythonoperator           guifg=#000000   guibg=NONE      guisp=NONE    gui=bold
-hi pythonoperator           ctermfg=NONE    ctermbg=NONE    cterm=bold
-hi pythonprecondit          guifg=#894c24   guibg=NONE      guisp=NONE    gui=NONE
-hi pythonprecondit          ctermfg=94      ctermbg=NONE    cterm=NONE
-hi pythonrawstring          guifg=#4970cc   guibg=NONE      guisp=NONE    gui=NONE
-hi pythonrawstring          ctermfg=68      ctermbg=NONE    cterm=NONE
-hi pythonrepeat             guifg=#000000   guibg=NONE      guisp=NONE    gui=bold
-hi pythonrepeat             ctermfg=NONE    ctermbg=NONE    cterm=bold
-hi pythonstatement          guifg=#0086b5   guibg=NONE      guisp=NONE    gui=NONE
-hi pythonstatement          ctermfg=31      ctermbg=NONE    cterm=NONE
-hi rcursor                  guifg=#000000   guibg=#00CCFF   guisp=#00CCFF gui=NONE
-hi rcursor                  ctermfg=NONE    ctermbg=45      cterm=NONE
-hi Repeat                   guifg=#5fffff   guibg=NONE      guisp=NONE    gui=NONE
-hi Repeat                   ctermfg=87      ctermbg=NONE    cterm=NONE
-hi rubyglobalvariable       guifg=#5f8700   guibg=NONE      guisp=NONE    gui=NONE
-hi rubyglobalvariable       ctermfg=64      ctermbg=NONE    cterm=NONE
-hi rubypredefinedidentifier guifg=#5f8700   guibg=NONE      guisp=NONE    gui=bold
-hi rubypredefinedidentifier ctermfg=64      ctermbg=NONE    cterm=bold
-hi SpecialChar              guifg=#87d7ff   guibg=NONE      guisp=NONE    gui=NONE
-hi SpecialChar              ctermfg=117     ctermbg=NONE    cterm=NONE
-hi SpecialComment           guifg=#87d7ff   guibg=NONE      guisp=NONE    gui=NONE
-hi SpecialComment           ctermfg=117     ctermbg=NONE    cterm=NONE
-hi Special                  guifg=#87d7ff   guibg=NONE      guisp=NONE    gui=NONE
-hi Special                  ctermfg=117     ctermbg=NONE    cterm=NONE
-hi Statement                guifg=#ffffff   guibg=NONE      guisp=NONE    gui=bold
-hi Statement                ctermfg=15      ctermbg=NONE    cterm=bold
-hi StorageClass             guifg=#5fff5f   guibg=NONE      guisp=NONE    gui=NONE
-hi StorageClass             ctermfg=83      ctermbg=NONE    cterm=NONE
-hi String                   guifg=#ffd700   guibg=NONE      guisp=NONE    gui=NONE
-hi String                   ctermfg=220     ctermbg=NONE    cterm=NONE
-hi Structure                guifg=#5fff5f   guibg=NONE      guisp=NONE    gui=NONE
-hi Structure                ctermfg=83      ctermbg=NONE    cterm=NONE
-hi Tag                      guifg=#87d7ff   guibg=NONE      guisp=NONE    gui=NONE
-hi Tag                      ctermfg=117     ctermbg=NONE    cterm=NONE
-hi titled                   guifg=#ffffff   guibg=#221100   guisp=#221100 gui=NONE
-hi titled                   ctermfg=15      ctermbg=52      cterm=NONE
-hi Todo                     guifg=NONE      guibg=NONE      guisp=NONE    gui=NONE
-hi Todo                     ctermfg=NONE    ctermbg=NONE    cterm=NONE
-hi Typedef                  guifg=#5fff5f   guibg=NONE      guisp=NONE    gui=NONE
-hi Typedef                  ctermfg=83      ctermbg=NONE    cterm=NONE
-hi Type                     guifg=#5fff5f   guibg=NONE      guisp=NONE    gui=NONE
-hi Type                     ctermfg=83      ctermbg=NONE    cterm=NONE
-hi Underlined               guifg=NONE      guibg=NONE      guisp=NONE    gui=NONE
-hi Underlined               ctermfg=NONE    ctermbg=NONE    cterm=NONE
-hi Union                    guifg=NONE      guibg=NONE      guisp=NONE    gui=NONE
-hi Union                    ctermfg=NONE    ctermbg=NONE    cterm=NONE
-hi user1                    guifg=#ffd7af   guibg=#303030   guisp=#303030 gui=bold
-hi user1                    ctermfg=223     ctermbg=236     cterm=bold
-hi user2                    guifg=#585858   guibg=#303030   guisp=#303030 gui=NONE
-hi user2                    ctermfg=240     ctermbg=236     cterm=NONE
+call s:hi("Normal", 153, 235)
+call s:hi("ColorColumn", -1, 235)
+call s:hi("Cursor", 15, 82)
+call s:hi("CursorIM", 232, 118)
+call s:hi("CursorColumn", -1, 234)
+call s:hi("CursorLine", -1, 118)
+call s:hi("CursorLineNR", 47, 24)
+call s:hi("DiffAdd", 253, 21)
+call s:hi("DiffChange", 253, 30)
+call s:hi("DiffDelete", 39, 238)
+call s:hi("DiffText", 238, 39)
+call s:hi("ErrorMsg", 124)
+call s:hi("Error")
+call s:hi("LineNr", 188, 24)
+call s:hi("VertSplit", 188, 24)
+call s:hi("Folded", 188, 26)
+call s:hi("FoldColumn", 188, 24)
+call s:hi("SignColumn")
+call s:hi("IncSearch", 15, 26)
+call s:hi("MatchParen", -1, -1, "inverse")
+call s:hi("ModeMsg")
+call s:hi("MoreMsg")
+call s:hi("NonText", 188)
+call s:hi("PMenu", 52, 226)
+call s:hi("PMenuSbar", 226, 52)
+call s:hi("PMenuSel", 22, 226)
+call s:hi("PMenuThumb", 129, 226)
+call s:hi("Question")
+call s:hi("Search", -1, -1, "inverse")
+call s:hi("SpecialKey")
+call s:hi("SpellBad", -1, -1, "underline,bold")
+call s:hi("SpellCap", -1, -1, "underline")
+call s:hi("SpellRare", -1, -1, "inverse,bold,underline")
+call s:hi("SpellLocal", -1, -1, "underline,bold,italic")
+call s:hi("StatusLine", 16, 153)
+call s:hi("StatusLineNC", 188, 24)
+call s:hi("TabLine", 188, 24)
+call s:hi("TabLineFill", 188, 24)
+call s:hi("TabLineSel", 232, 153, "bold")
+call s:hi("Title", 188, 24)
+call s:hi("Visual", 232, 153)
+call s:hi("VisualNOS", -1, -1)
+call s:hi("WarningMsg", -1, -1)
+call s:hi("WildMenu", -1, -1)
+call s:hi("Boolean", 15, -1)
+call s:hi("Character", 196, -1)
+call s:hi("cif0", 7, -1)
+call s:hi("Comment", 76, -1)
+call s:hi("Conditional", 87, -1)
+call s:hi("Constant", 201, -1)
+call s:hi("CTagsClass", -1, -1)
+call s:hi("CTagsGlobalConstant", -1, -1)
+call s:hi("CTagsGlobalVariable", -1, -1)
+call s:hi("CTagsImport", -1, -1)
+call s:hi("CTagsMember", -1, -1)
+call s:hi("Debug", 117, -1)
+call s:hi("DefinedName", -1, -1)
+call s:hi("Define", 208, -1)
+call s:hi("Delimiter", 107, -1)
+call s:hi("Directory", -1, -1)
+call s:hi("EnumerationName", -1, -1)
+call s:hi("EnumerationValue", -1, -1)
+call s:hi("Exception", 0, 196)
+call s:hi("Float", 196, -1)
+call s:hi("Function", 75, -1)
+call s:hi("htmlh2", 15, 52, "bold")
+call s:hi("htmllink", 11, -1)
+call s:hi("icursor", -1, 11)
+call s:hi("Identifier", 184, -1)
+call s:hi("Ignore", -1, -1)
+call s:hi("Include", 208, -1)
+call s:hi("Keyword", 83, -1)
+call s:hi("Label", 87, -1)
+call s:hi("lcursor", 232, 118)
+call s:hi("LocalVariable", -1, -1)
+call s:hi("Macro", 208, -1)
+call s:hi("menu", -1, 9)
+call s:hi("ncursor", -1, 15)
+call s:hi("Number", 196, -1)
+call s:hi("operatorcurlybrackets", 75, -1)
+call s:hi("Operator", 85, -1)
+call s:hi("PreCondit", 208, -1)
+call s:hi("PreProc", 208, -1)
+call s:hi("pythonbuiltin", 67, -1)
+call s:hi("pythoncomment", 67, -1)
+call s:hi("pythonconditional", -1, -1)
+call s:hi("pythonimport", 94, -1)
+call s:hi("pythonoperator", -1, -1)
+call s:hi("pythonprecondit", 94, -1)
+call s:hi("pythonrawstring", 68, -1)
+call s:hi("pythonrepeat", -1, -1)
+call s:hi("pythonstatement", 31, -1)
+call s:hi("rcursor", -1, 45)
+call s:hi("Repeat", 87, -1)
+call s:hi("rubyglobalvariable", 64, -1)
+call s:hi("rubypredefinedidentifier", 64, -1)
+call s:hi("SpecialChar", 117, -1)
+call s:hi("SpecialComment", 117, -1)
+call s:hi("Special", 117, -1)
+call s:hi("Statement", 15, -1)
+call s:hi("StorageClass", 83, -1)
+call s:hi("String", 220, -1)
+call s:hi("Structure", 83, -1)
+call s:hi("Tag", 117, -1)
+call s:hi("titled", 15, 52)
+call s:hi("Todo", -1, -1)
+call s:hi("Typedef", 83, -1)
+call s:hi("Type", 83, -1)
+call s:hi("Underlined", -1, -1)
+call s:hi("Union", -1, -1)
+call s:hi("user1", 223, 236, "bold")
+call s:hi("user2", 240, 236)
 "Highlighting for Chromatica
-hi Member                   guifg=#00ffff   guibg=NONE      guisp=NONE    gui=NONE
-hi Member                   ctermfg=14      ctermbg=NONE    cterm=NONE
-hi Variable                 guifg=#c0c0c0   guibg=NONE      guisp=NONE    gui=NONE
-hi Variable                 ctermfg=229     ctermbg=NONE    cterm=NONE
-hi Namespace                guifg=#bbbb00   guibg=NONE      guisp=NONE    gui=NONE
-hi Namespace                ctermfg=11      ctermbg=NONE    cterm=NONE
-hi EnumConstant             guifg=#00ff00   guibg=NONE      guisp=NONE    gui=NONE
-hi EnumConstant             ctermfg=10      ctermbg=NONE    cterm=NONE
+call s:hi("Member", 14, -1)
+call s:hi("Variable", 229, -1)
+call s:hi("Namespace", 11, -1)
+call s:hi("EnumConstant", 10, -1)
 "Highlight groups for taglist plugin
-hi MyTagListFileName        guifg=#000000   guibg=#afd7ff   guisp=#afd7ff gui=bold
-hi MyTagListFileName        ctermfg=16      ctermbg=153     cterm=NONE
-hi MyTagListTagName         guifg=#000000   guibg=#afd7ff   guisp=#afd7ff gui=bold
-hi MyTagListTagName         ctermfg=16      ctermbg=153     cterm=NONE
+call s:hi("MyTagListFileName", 16, 153)
+call s:hi("MyTagListTagName", 16, 153)
