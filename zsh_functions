@@ -123,7 +123,8 @@ function checkout_subrepos() {
     parent_repo=${1}
     for repo in `ssh -p 29418 rndgit gerrit ls-projects --type code | grep ${parent_repo}`
     do
-        repo_subpath=$(echo ${repo} | sed -e "s|${parent_repo}/||")
+        repo_subpath=$(echo ${repo} | sed -e "s|${parent_repo}/\{0,1\}||")
+        echo ${parent_repo} - ${repo_subpath}
         if [ -d ${repo_subpath} ]
         then
             pushd $repo_subpath
