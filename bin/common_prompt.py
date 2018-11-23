@@ -4,7 +4,6 @@
 import os
 import re
 import subprocess
-import psutil
 import socket
 import json
 import math
@@ -53,7 +52,6 @@ def main():
     columns = int(columns)
     tmux = os.getenv('TMUX')
     ppid = os.getppid()
-    parent = psutil.Process(ppid)
     prompt += '{}{}'.format(main_colour, background)
     prompt_len = 0
     if tmux is None:
@@ -82,13 +80,6 @@ def main():
     work_dir = get_work_dir(max_work_dir_len)
     cols_remaining = (columns - len(work_dir) - work_fmt_len)
     half_cols = math.floor(cols_remaining / 2)
-#    print('columns: {}'.format(columns))
-#    print('prompt_len: {}'.format(prompt_len))
-#    print('work_fmt_len: {}'.format(work_fmt_len))
-#    print('max_work_dir_len: {}'.format(max_work_dir_len))
-#    print('work_dir_len: {}'.format(len(work_dir)))
-#    print('cols_remaining: {}'.format(cols_remaining))
-#    print('half_cols: {}'.format(half_cols))
     if (half_cols > prompt_len):
         prompt += fill_char * (half_cols - prompt_len)
     else:
