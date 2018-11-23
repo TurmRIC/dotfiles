@@ -29,7 +29,6 @@ def get_work_dir(max_len):
     # split available characters from front and back
     split_chars = math.floor((max_len - 3)/2)
     work_dir = work_dir[:split_chars]+'...'+work_dir[-split_chars:]
-    print(len(work_dir))
     return work_dir
 
 
