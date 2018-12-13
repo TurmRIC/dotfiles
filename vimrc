@@ -82,6 +82,8 @@ Plugin 'DoxygenToolkit.vim'
 
 Plugin 'nathanalderson/yang.vim'
 
+Plugin 'gabrielelana/vim-markdown'
+
 call vundle#end()
 
 " ---------------------------------------------------------------------------
