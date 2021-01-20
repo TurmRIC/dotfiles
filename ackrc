@@ -3,4 +3,6 @@
 --sort-files
 --ignore-dir=.mocks
 --ignore-dir=.xml
-
+--ignore-dir=oe-workdir
+--ignore-dir=oe-logs
+--ignore-dir=oe-local-files

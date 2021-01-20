@@ -40,7 +40,8 @@ def main():
     host_colour = colour_string.format(208)
     user_colour = colour_string.format(154)
     work_dir_colour = colour_string.format(214)
-    prompt_char = '▶'
+    #prompt_char = '▶'
+    prompt_char = '$'
     prompt_colour = '%(?.%F{2}.%F{1})'
     fill_char = '─'
     left_char = '┤'

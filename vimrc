@@ -14,6 +14,14 @@ Plugin 'scrooloose/syntastic.git'
 "NERD Tree - source browser
 Plugin 'scrooloose/nerdtree'
 
+" Targets
+" includes targets like ([{'"
+Plugin 'wellle/targets.vim'
+
+" Commentary
+" Allows automatic commenting of lines
+Plugin 'tpope/vim-commentary'
+
 "Bitbake recipes syntax highlighting
 Plugin 'kergoth/vim-bitbake'
 
@@ -74,6 +82,9 @@ Plugin 'godlygeek/tabular.git'
 " Plugin 'vim-scripts/groovyindent-unix'
 "Temporary override of java indentation
 Plugin 'xuhdev/indent-java.vim'
+
+"Go Helper
+Plugin 'fatih/vim-go'
 
 "json Highlighting
 Plugin 'elzr/vim-json'
@@ -194,6 +205,13 @@ let g:syntastic_stl_format = '[%E{Err:%e Line:%fe}%B{, }%W{Warn:%w Line:%fw}]'
 let g:syntastic_c_remove_include_errors = 1
 let g:syntastic_check_on_open=0
 let g:syntastic_check_on_wq=0
+let g:syntastic_python_pylint_quiet_messages = {
+            \ "type": "style",
+            \ "regex" : 'E501' }
+let g:syntastic_quiet_messages = {
+            \ "type": "style",
+            \ "regex" : 'E501',
+            \ "file:p" : ['\m\c.py',] }
 
 " ----------------------------------------------------------------------------
 " Chromatica Global Options
@@ -225,21 +243,29 @@ let maplocalleader = ","
 " ---------------------------------------------------------------------------
 " Clipboard stuff
 " ----------------------------------------------------------------------------
-let g:clipboard = {
-  \   'name': 'xclip-xfce4-clipman',
-  \   'copy': {
-  \      '+': 'xclip -selection clipboard',
-  \      '*': 'xclip -selection clipboard',
-  \    },
-  \   'paste': {
-  \      '+': 'xclip -selection clipboard -o',
-  \      '*': 'xclip -selection clipboard -o',
-  \   },
-  \   'cache_enabled': 1,
-  \ }
+"let g:clipboard = {
+"  \   'name': 'xclip-xfce4-clipman',
+"  \   'copy': {
+"  \      '+': 'xclip -selection clipboard',
+"  \      '*': 'xclip -selection clipboard',
+"  \    },
+"  \   'paste': {
+"  \      '+': 'xclip -selection clipboard -o',
+"  \      '*': 'xclip -selection clipboard -o',
+"  \   },
+"  \   'cache_enabled': 1,
+"  \ }
 " ----------------------------------------------------------------------------
 " Mappings
 " ----------------------------------------------------------------------------
+"
+if exists(":Tabularize")
+    nnoremap <LocalLeader>a= :Tabularize /=<CR>
+    vnoremap <LocalLeader>a= :Tabularize /=<CR>
+    nnoremap <LocalLeader>a: :Tabularize /:\zs<CR>
+    vnoremap <LocalLeader>a: :Tabularize /:\zs<CR>
+endif
+
 " quicker access to the system clipboard
 vnoremap <silent><LocalLeader>y "*yy
 onoremap <silent><LocalLeader>y "*yy

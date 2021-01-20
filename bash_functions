@@ -92,4 +92,11 @@ then
             echo "Cannot find ip for ${1}"
         fi
     }
+else
+    killbake() {
+        kill -9 `ps aux | grep bitbake | grep -v grep | awk '{printf("%s ", $1)}'`
+    }
+    killdev() {
+        kill -9 `ps aux | grep devtool | grep -v grep | awk '{printf("%s ", $1)}'`
+    }
 fi

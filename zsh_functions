@@ -13,6 +13,14 @@ function man() {
     man "$@"
 }
 
+function tar_ss_snapshot() {
+    tar -zchf sprint_${1}_snapshot.tgz atf-uboot.ub saltspring-image-saltspring-zynqmp.squashfs u-boot.bin boot.bin Image-initramfs-saltspring-zynqmp.bin devicetree/saltspring-zynqmp.dtb
+}
+
+function tar_ss_wip() {
+    tar -zchf ${1} atf-uboot.ub saltspring-image-saltspring-zynqmp.squashfs u-boot.bin boot.bin Image-initramfs-saltspring-zynqmp.bin devicetree/saltspring-zynqmp.dtb
+}
+
 function release_to_msm() {
     ssh msm mkdir /tftpboot/tintagel/REL_4D_${1}
     scp REL_4D_${1}* msm:/tftpboot/tintagel/REL_4D_${1}/
@@ -35,17 +43,29 @@ then
         cols=`tput cols`
         if [ -n "$TMUX" ];
         then
-            if [ ${cols} -lt 130 ]
+            if [ ${cols} -lt 160 ]
             then
                 eval ${cmd}
+            elif [ ${cols} -gt 300 ]
+            then
+                tmux split-window -h "${cmd}" \; \
+                    select-layout even-horizontal \; \
+                    resize-pane -x $((2 * cols / 3))
             else
                 tmux split-window -h "${cmd}" \; \
                     select-layout main-vertical
             fi
         else
-            if [ ${cols} -lt 130 ]
+            if [ ${cols} -lt 160 ]
             then
                 tmux new-session -d "${cmd}" \; \
+                    attach 
+            elif [ ${cols} -gt 300 ]
+            then
+                tmux new-session \; \
+                    split-window -h "${cmd}" \; \
+                    select-layout even-horizontal \; \
+                    resize-pane -x $((cols * 2 / 3))
                     attach 
             else
                 tmux new-session \; \
@@ -57,7 +77,9 @@ then
     }
 
     function ssh-builder() {
-        local BUILDER_IP=`grep ${1} /var/lib/misc/dnsmasq.lxcbr0.leases | awk '{print $3}'`
+        #local BUILDER_IP=`grep ${1} /var/lib/misc/dnsmasq.lxcbr0.leases | awk '{print $3}'`
+        BUILDER_NAME=${1:-"warrior-builder"}
+        local BUILDER_IP=`sudo lxc-info ${BUILDER_NAME} -Hi`
         if [ -n "${BUILDER_IP}" ]
         then
             ssh -A ${BUILDER_IP}

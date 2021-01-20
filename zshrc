@@ -6,11 +6,11 @@
 export LANG=en_CA.UTF-8
 
 # Detect if we are inside a container or not
-if cat /proc/1/cgroup | grep memory | grep -q init.scope
+if [ "${container}" = "lxc" ]
 then
-    export INSIDE_CONTAINER="no"
-else
     export INSIDE_CONTAINER="yes"
+else
+    export INSIDE_CONTAINER="no"
 fi
 
 # Alias definitions.
@@ -29,6 +29,7 @@ export EDITOR=vim
 export LESS="-F -X -R"
 
 setopt nonomatch
+unsetopt nomatch
 
 # Set up the prompt
 host=`hostname`
@@ -80,7 +81,7 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
 # Setup an ssh agent when starting on my work PC
-if [ ${host} = "PC2226" -o ${host} = "pc2581" -o ${host} = "PC2581" ]
+if [ ${host} = "pc2581" -o ${host} = "PC2581" ]
 then
     if [ -z "${SSH_AGENT_PID}" ]
     then
@@ -108,6 +109,8 @@ then
         done
     fi
     rm ${ID_FINGER_PRINTS}
+else
+    echo ${host}
 fi
 
 # Setup a persistent ssh agent socket when requested (on interactive ssh only)
@@ -131,3 +134,5 @@ then
         fi
     fi
 fi
+
+export CONFD_DIR="$HOME/5E_Gullfoss/confd/install"

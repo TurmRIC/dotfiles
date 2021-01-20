@@ -37,3 +37,5 @@
     autosetuprebase = always
 [format]
     pretty = tformat:Commit:  %C(yellow)%H%Creset%nAuthor:  %C(cyan)%an <%ae>%Creset%nDate:    %Cgreen%ad%Creset%nSubject: %Cred%s%Creset%n%n%w(76,4,4)%b%w(76,0,0)
+[url "rndgit.corp.vecima.com:29418/"]
+	insteadOf = https://vecima.com
